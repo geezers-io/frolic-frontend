@@ -8,7 +8,7 @@ const Header = ({ hideProfileIcon, hideSearchIcon }) => {
   return (
     <header className="flex h-12 bg-white justify-between px-4 items-center font-semibold relative">
       <h1 className="m-0 text-lg text-slate-600 whitespace-nowrap">
-        <Link to="/">sns-modular</Link>
+        <Link to="/">Frolic</Link>
       </h1>
 
       <nav className="flex gap-x-2">
