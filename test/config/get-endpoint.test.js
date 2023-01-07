@@ -1,5 +1,5 @@
-import { MODE_NAME_LIST } from 'src/api/constant';
-import { getServerUrlByMode } from 'src/api/helper';
+import { MODE_NAME_LIST } from 'api/constant';
+import { getServerUrlByMode } from 'api/helper';
 
 describe('환경에 따른 API ENDPOINT 변경 테스트', () => {
   it('개발 환경이 development 일 때, http://localhost:8080/api url domain 을 얻는다.', () =>
