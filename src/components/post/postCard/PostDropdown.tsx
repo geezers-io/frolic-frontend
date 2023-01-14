@@ -27,7 +27,7 @@ const menuItems: ItemType[] = [
 ];
 
 const PostDropdown: React.FC<Props> = ({ post }) => {
-  const [posts, setPosts] = useRecoilState(atomStore.postsAtom);
+  const [posts, setPosts] = useRecoilState(atomStore.mainPagePostsAtom);
   const { isModalOpen: isEditModalOpen, openModal: openEditModal, closeModal: closeEditModal } = useModal();
   const [messageApi, contextHolder] = message.useMessage();
 

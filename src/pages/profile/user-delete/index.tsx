@@ -1,7 +1,10 @@
+import { NextPage } from 'next';
+import React from 'react';
+
 import UserDeleteForm from 'components/userPanel/UserDeleteForm';
 import AuthLayout from 'layouts/AuthLayout';
 
-const UserDelete = () => {
+const UserDeletePage: NextPage = () => {
   return (
     <AuthLayout>
       <UserDeleteForm />
@@ -9,4 +12,4 @@ const UserDelete = () => {
   );
 };
 
-export default UserDelete;
+export default UserDeletePage;

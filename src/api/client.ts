@@ -47,7 +47,8 @@ const axiosWrapper = async (
 
     const errorMessage = getErrorMessage(error);
 
-    if (url === '/auth/reissue' && status && !tokenErrorStatusList.includes(status)) {
+    const reIssueTokenError = url === '/auth/reissue' && status && tokenErrorStatusList.includes(status);
+    if (!reIssueTokenError) {
       throw new Error(errorMessage);
     }
 
@@ -67,8 +68,9 @@ const axiosWrapper = async (
 
       return data;
     } catch (e) {
+      console.error(e);
       token.clear();
-      // window.location = '/auth/sign-in';
+      location.href = '/auth/sign-in';
     }
   }
 };

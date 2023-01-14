@@ -1,21 +1,22 @@
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { message } from 'antd';
-import { isNil } from 'lodash';
 import qs from 'qs';
 import shortid from 'shortid';
 
 import { Post } from 'api/@types/posts';
 import { PostsService } from 'api/services';
+import EmptyFeed from 'components/empty/EmptyFeed';
 import PostCard from 'components/post/postCard/PostCard';
-import { useDidMountEffect } from 'hooks/useDidMountEffect';
+import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
 import AppLayout from 'layouts/AppLayout';
 
-const SearchHashtag = () => {
+const SearchPage: NextPage = () => {
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<Post[]>();
 
   const hashtags = useMemo<string[]>(() => {
     // TODO: router.query 에 hashtags 가 어떤 식으로 들어오는지 확인할 것. qs.parse 따로 해야하는지?
@@ -37,15 +38,17 @@ const SearchHashtag = () => {
     }
   }, [hashtags, messageApi]);
 
-  useDidMountEffect(() => {
-    getPosts().then();
-  });
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   return (
     <AppLayout>
       {contextHolder}
 
-      {isNil(posts) ? null : (
+      {posts === undefined && <PostCardsSkeleton />}
+      {posts?.length === 0 && <EmptyFeed />}
+      {posts?.length && (
         <>
           <section className="flex flex-col items-center py-8">
             <div className="flex gap-x-1">
@@ -72,4 +75,4 @@ const SearchHashtag = () => {
   );
 };
 
-export default SearchHashtag;
+export default SearchPage;

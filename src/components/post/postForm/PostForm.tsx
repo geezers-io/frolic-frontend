@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Form, message, Modal, Upload, UploadFile } from 'antd';
@@ -9,7 +9,6 @@ import shortid from 'shortid';
 import { Post } from 'api/@types/posts';
 import { PostsService } from 'api/services';
 import UserIcon from 'components/userPanel/UserIcon';
-import { useDidMountEffect } from 'hooks/useDidMountEffect';
 import atomStore from 'stores/atom';
 import { isNonNullable } from 'utils/isNonNullable';
 
@@ -30,7 +29,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
   const [form] = Form.useForm();
   const [text, setText] = useState('');
   const [textareaFocus, setTextareaFocus] = useState(false);
-  const setPosts = useSetRecoilState(atomStore.postsAtom);
+  const setPosts = useSetRecoilState(atomStore.mainPagePostsAtom);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -88,7 +87,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
     [fileList, handleCloseModal, initialValues, messageApi, setPosts]
   );
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     if (!initialValues) return;
 
     setText(initialValues.textContent);
@@ -120,7 +119,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
 
       setFileList(initialFiles);
     })();
-  });
+  }, []);
 
   if (!me) return null;
   return (

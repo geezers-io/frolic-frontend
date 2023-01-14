@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { Button, Form, Input, message } from 'antd';
 import { useRecoilValue } from 'recoil';
@@ -18,7 +18,7 @@ const layout = {
   wrapperCol: { span: 24 },
 };
 
-const UserDeleteForm = () => {
+const UserDeleteForm: React.FC = () => {
   const router = useRouter();
   const me = useRecoilValue(atomStore.meAtom);
   const { formValidateTrigger, onFormFinishFailed, hasFeedback } = useFormValidateTrigger();

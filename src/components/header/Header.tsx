@@ -9,8 +9,8 @@ import atomStore from 'stores/atom';
 import HeaderSearch from './HeaderSearch';
 
 interface Props {
-  hideProfileIcon: boolean;
-  hideSearchIcon: boolean;
+  hideProfileIcon?: boolean;
+  hideSearchIcon?: boolean;
 }
 
 const Header: React.FC<Props> = ({ hideProfileIcon, hideSearchIcon }) => {

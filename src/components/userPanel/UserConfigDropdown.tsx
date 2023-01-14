@@ -67,6 +67,4 @@ const UserConfigDropdown: React.FC<Props> = ({ style }) => {
   );
 };
 
-UserConfigDropdown.propTypes = {};
-
 export default UserConfigDropdown;

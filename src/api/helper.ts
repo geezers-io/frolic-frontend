@@ -2,7 +2,7 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { ApiMethods } from 'api/@types/@shared';
 
-import { ENDPOINT_LIST, MODE_NAME_LIST } from './constant';
+import { ENDPOINT_DICT, MODE_NAME_DICT } from './constant';
 
 export function getRequestArgs(
   method: keyof ApiMethods,
@@ -37,15 +37,15 @@ export function getErrorMessage(e: AxiosError) {
   );
 }
 
-export function getServerUrlByMode(mode = MODE_NAME_LIST.TEST) {
+export function getServerUrlByMode(mode = MODE_NAME_DICT.TEST) {
   switch (mode) {
-    case MODE_NAME_LIST.DEVELOPMENT:
-      return ENDPOINT_LIST.DEVELOPMENT;
-    case MODE_NAME_LIST.PRODUCTION:
+    case MODE_NAME_DICT.DEVELOPMENT:
+      return ENDPOINT_DICT.DEVELOPMENT;
+    case MODE_NAME_DICT.PRODUCTION:
       throw Error('배포 환경이 정의되지 않았습니다.');
-    case MODE_NAME_LIST.TEST:
-      return ENDPOINT_LIST.TEST;
+    case MODE_NAME_DICT.TEST:
+      return ENDPOINT_DICT.TEST;
     default:
-      return ENDPOINT_LIST.DEVELOPMENT;
+      return ENDPOINT_DICT.DEVELOPMENT;
   }
 }

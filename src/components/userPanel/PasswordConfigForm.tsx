@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { Button, Form, Input, message } from 'antd';
 
@@ -15,7 +15,7 @@ const layout = {
   wrapperCol: { span: 24 },
 };
 
-const PasswordConfigForm = () => {
+const PasswordConfigForm: React.FC = () => {
   const { formValidateTrigger, onFormFinishFailed, hasFeedback } = useFormValidateTrigger();
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();

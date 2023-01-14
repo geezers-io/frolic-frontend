@@ -2,8 +2,10 @@ import React from 'react';
 
 import { useRecoilValue } from 'recoil';
 
-import FollowersModal from 'components/follow/FollowersModal';
+import { UserDetail } from 'api/@types/user';
+import FollowersModal from 'components/follower/FollowersModal';
 import FollowingsModal from 'components/following/FollowingsModal';
+import FollowOrUnFollowButton from 'components/userPanel/FollowOrUnFollowButton';
 import { useModal } from 'hooks/useModal';
 import atomStore from 'stores/atom';
 
@@ -12,22 +14,18 @@ import UserConfigDropdown from './UserConfigDropdown';
 import UserIcon from './UserIcon';
 
 interface Props {
-  followComponent: React.ReactNode;
+  user: UserDetail;
 }
 
-const UserPanel: React.FC<Props> = ({ followComponent }) => {
-  const userProfileInfo = useRecoilValue(atomStore.userProfileInfo);
-  const { allFollowingCount, allFollowerCount, userInfo } = userProfileInfo;
-
-  // Modal status
+const UserPanel: React.FC<Props> = ({ user: { userInfo, allFollowingCount, allFollowerCount } }) => {
+  const me = useRecoilValue(atomStore.meAtom);
+  const isMe = me?.userInfo.username === userInfo.username;
   const { isModalOpen: isFollowModalOpen, openModal: openFollowModal, closeModal: closeFollowModal } = useModal();
   const {
     isModalOpen: isFollowingModalOpen,
     openModal: openFollowingModal,
     closeModal: closeFollowingModal,
   } = useModal();
-
-  if (!userProfileInfo) return null;
 
   return (
     <>
@@ -51,10 +49,12 @@ const UserPanel: React.FC<Props> = ({ followComponent }) => {
               <ProfileStat title="팔로우 중" count={allFollowingCount} onClick={openFollowingModal} />
               <ProfileStat title="팔로워" count={allFollowerCount} onClick={openFollowModal} />
             </section>
-            {followComponent}
+
+            {me && !isMe && <FollowOrUnFollowButton username={userInfo.username as string} />}
           </section>
         </article>
       </section>
+
       <FollowersModal handleClose={closeFollowModal} isShow={isFollowModalOpen} />
       <FollowingsModal handleClose={closeFollowingModal} isShow={isFollowingModalOpen} />
     </>

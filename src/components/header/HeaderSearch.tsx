@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, message, Modal } from 'antd';
@@ -7,7 +7,7 @@ import qs from 'qs';
 
 import { useModal } from 'hooks/useModal';
 
-const HeaderSearch = () => {
+const HeaderSearch: React.FC = () => {
   const router = useRouter();
   const { isModalOpen, openModal, closeModal } = useModal();
   const inputRef = useRef(null);

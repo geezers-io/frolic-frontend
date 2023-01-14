@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Divider, Form, Input, message } from 'antd';
@@ -17,7 +17,7 @@ interface FormValues extends LoginRequest {
   remember: boolean;
 }
 
-const SignInForm = () => {
+const SignInForm: React.FC = () => {
   const router = useRouter();
   const { formValidateTrigger, onFormFinishFailed, hasFeedback } = useFormValidateTrigger();
   const setMe = useSetRecoilState(atomStore.meAtom);
@@ -63,17 +63,15 @@ const SignInForm = () => {
             <Input prefix={<UserOutlined />} placeholder="이메일" allowClear />
           </Form.Item>
           <Form.Item name="password" rules={[requiredRule]} hasFeedback={hasFeedback}>
-            <Input prefix={<LockOutlined />} type="password" placeholder="비밀번호" allowClear />
+            <Input.Password prefix={<LockOutlined />} type="password" placeholder="비밀번호" allowClear />
           </Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>로그인 상태 유지</Checkbox>
           </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" size="large" htmlType="submit" className="w-full mt-5">
-              로그인
-            </Button>
-          </Form.Item>
+          <Button type="primary" size="large" htmlType="submit" className="w-full mt-5 mb-4">
+            로그인
+          </Button>
 
           <div className="flex items-center justify-center pr-3">
             <Link href="/auth/find-password" className="p-0 text-gray-600">

@@ -1,12 +1,13 @@
+import { NextPage } from 'next';
+import React from 'react';
+
 import SignInForm from 'components/auth/SignInForm';
 import AuthLayout from 'layouts/AuthLayout';
 
-const SignIn = () => (
+const SignInPage: NextPage = () => (
   <AuthLayout hideHeaderSearchIcon hideHeaderProfileIcon>
     <SignInForm />
   </AuthLayout>
 );
 
-SignIn.propTypes = {};
-
-export default SignIn;
+export default SignInPage;

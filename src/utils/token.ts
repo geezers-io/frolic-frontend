@@ -2,7 +2,7 @@ export const token = {
   accessToken: {
     key: 'ACCESS_TOKEN',
 
-    set(v) {
+    set(v: string) {
       sessionStorage.setItem(this.key, v);
     },
 
@@ -18,7 +18,7 @@ export const token = {
   refreshToken: {
     key: 'REFRESH_TOKEN',
 
-    set(v, isRemember) {
+    set(v: string, isRemember?: boolean) {
       if (isRemember) {
         localStorage.setItem(this.key, v);
       } else {

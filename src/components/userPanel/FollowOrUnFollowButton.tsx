@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, message } from 'antd';
 
 import { UserService } from 'api/services';
-import { useDidMountEffect } from 'hooks/useDidMountEffect';
 
 interface Props {
   username: string;
 }
 
-const TargetFollowButton: React.FC<Props> = ({ username }) => {
+const FollowOrUnFollowButton: React.FC<Props> = ({ username }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [isFollowing, setIsFollowing] = useState<boolean>(true);
+
+  const checkAndSetIsFollowing = async () => {
+    try {
+      const isFollowing = await UserService.checkFollow({ username });
+      setIsFollowing(isFollowing);
+    } catch (err) {
+      messageApi.error(err.message);
+    }
+  };
 
   const onClickFollowUser = async () => {
     try {
@@ -27,14 +35,9 @@ const TargetFollowButton: React.FC<Props> = ({ username }) => {
     }
   };
 
-  useDidMountEffect(async () => {
-    try {
-      const isFollowing = await UserService.checkFollow({ username });
-      setIsFollowing(isFollowing);
-    } catch (err) {
-      messageApi.error(err.message);
-    }
-  });
+  useEffect(() => {
+    checkAndSetIsFollowing();
+  }, []);
 
   return (
     <>
@@ -47,4 +50,4 @@ const TargetFollowButton: React.FC<Props> = ({ username }) => {
   );
 };
 
-export default TargetFollowButton;
+export default FollowOrUnFollowButton;

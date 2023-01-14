@@ -1,8 +1,8 @@
-import { postsAtom } from './posts';
+import { mainPagePostsAtom } from './posts';
 import { meAtom } from './user';
 
 const atomStore = {
-  postsAtom,
+  mainPagePostsAtom,
   meAtom,
 };
 

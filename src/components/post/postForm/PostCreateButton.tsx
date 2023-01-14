@@ -1,10 +1,12 @@
+import React from 'react';
+
 import { FormOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
 import PostForm from 'components/post/postForm/PostForm';
 import { useModal } from 'hooks/useModal';
 
-const PostCreateButton = () => {
+const PostCreateButton: React.FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   return (

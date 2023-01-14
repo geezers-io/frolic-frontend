@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { message } from 'antd';
 import { useRecoilState } from 'recoil';
@@ -9,18 +9,17 @@ import EmptyFeed from 'components/empty/EmptyFeed';
 import PostCard from 'components/post/postCard/PostCard';
 import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
 import PostCreateButton from 'components/post/postForm/PostCreateButton';
-import { useDidMountEffect } from 'hooks/useDidMountEffect';
 import AppLayout from 'layouts/AppLayout';
 import atomStore from 'stores/atom';
 
-const Feed = () => {
+const MainPage: React.FC = () => {
   const router = useRouter();
-  const [posts, setPosts] = useRecoilState(atomStore.postsAtom);
+  const [posts, setPosts] = useRecoilState(atomStore.mainPagePostsAtom);
   const [initialLoaded, setInitialLoaded] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
   const getPosts = useCallback(
-    async (page, size) => {
+    async (page: number, size: number) => {
       try {
         // setLoading(true);
         const posts = await PostsService.getPosts({ page, size });
@@ -37,9 +36,9 @@ const Feed = () => {
   );
 
   // TODO: 페이지네이션 구현하기
-  useDidMountEffect(() => {
-    getPosts(0, 999).then();
-  });
+  useEffect(() => {
+    getPosts(0, 999);
+  }, []);
 
   if (!initialLoaded) {
     return (
@@ -53,9 +52,9 @@ const Feed = () => {
     <AppLayout>
       {contextHolder}
       <PostCreateButton />
-      {posts?.length === 0 ? <EmptyFeed /> : posts?.map((post) => <PostCard key={post.postId} post={post} />)}
+      {posts?.length === 0 ? <EmptyFeed /> : posts?.map((post) => <PostCard key={post.id} post={post} />)}
     </AppLayout>
   );
 };
 
-export default Feed;
+export default MainPage;

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { Button, Form, Input, message } from 'antd';
 import { useRecoilState } from 'recoil';
@@ -17,7 +17,7 @@ const layout = {
   wrapperCol: { span: 24 },
 };
 
-const UserConfigForm = () => {
+const UserConfigForm: React.FC = () => {
   const [me, setMe] = useRecoilState(atomStore.meAtom);
   const { formValidateTrigger, onFormFinishFailed, hasFeedback } = useFormValidateTrigger();
   const [messageApi, contextHolder] = message.useMessage();

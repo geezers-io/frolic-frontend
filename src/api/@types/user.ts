@@ -1,5 +1,4 @@
 import { Empty } from 'api/@types/@shared';
-import { CreateUserResponse } from 'api/@types/auth';
 
 export interface User {
   id: number;
@@ -80,7 +79,7 @@ export interface UserServiceClient {
   /**
    * 내 정보 업데이트
    */
-  updateMe(request: UpdateMeRequest): Promise<UserDetail>;
+  updateMe(request: UpdateMeRequest): Promise<User>;
 
   /**
    * 패스워드 업데이트
@@ -115,12 +114,12 @@ export interface UserServiceClient {
   /**
    * 팔로우
    */
-  follow(request: FollowRequest): Promise<CreateUserResponse>;
+  follow(request: FollowRequest): Promise<Empty>;
 
   /**
    * 팔로우 취소
    */
-  unFollow(request: UnFollowRequest): Promise<CreateUserResponse>;
+  unFollow(request: UnFollowRequest): Promise<Empty>;
 
   /**
    * 내가 해당 유저가 팔로우했는지 체크
