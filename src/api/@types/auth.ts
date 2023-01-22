@@ -1,7 +1,7 @@
 import { Empty } from 'api/@types/@shared';
 import { UserDetail } from 'api/@types/user';
 
-export interface TokenInfo {
+export interface Token {
   accessToken: string;
   refreshToken: string;
 }
@@ -15,7 +15,7 @@ export interface CreateUserRequest {
 }
 
 export interface CreateUserResponse {
-  tokenInfo: TokenInfo;
+  tokenInfo: Token;
   userUnitedInfo: UserDetail;
 }
 
@@ -25,7 +25,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  tokenInfo: TokenInfo;
+  tokenInfo: Token;
   userUnitedInfo: UserDetail;
 }
 
