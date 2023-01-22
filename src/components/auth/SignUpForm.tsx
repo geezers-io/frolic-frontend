@@ -31,12 +31,18 @@ const SignUpForm: React.FC = () => {
       try {
         token.clear();
 
-        const { accessToken, refreshToken, userInfo } = await AuthService.createUser(values);
+        delete values.passwordConfirm;
 
-        setMe(() => userInfo);
+        const {
+          tokenInfo: { accessToken, refreshToken },
+          userUnitedInfo,
+        } = await AuthService.createUser(values);
+
+        setMe(() => userUnitedInfo);
 
         token.refreshToken.set(refreshToken, true);
         token.accessToken.set(accessToken);
+
         messageApi.success('회원가입 성공');
         router.push('/');
       } catch (err) {

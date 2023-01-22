@@ -1,17 +1,22 @@
 import { Empty } from 'api/@types/@shared';
 import { UserDetail } from 'api/@types/user';
 
+export interface TokenInfo {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface CreateUserRequest {
   username: string;
   email: string;
   password: string;
   realname: string;
+  phoneNumber: string;
 }
 
 export interface CreateUserResponse {
-  accessToken: string;
-  refreshToken: string;
-  userInfo: UserDetail;
+  tokenInfo: TokenInfo;
+  userUnitedInfo: UserDetail;
 }
 
 export interface LoginRequest {
@@ -20,9 +25,25 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
-  userInfo: UserDetail;
+  tokenInfo: TokenInfo;
+  userUnitedInfo: UserDetail;
+}
+
+export interface CodeCheckRequest {
+  code: string;
+}
+
+export interface FindEmailFirstStepRequest {
+  phoneNumber: string;
+}
+
+export interface FindEmailSecondStepResponse {
+  email: string;
+}
+
+export interface FindPasswordFirstStepRequest {
+  email: string;
+  phoneNumber: string;
 }
 
 export interface ReIssueAccessTokenRequest {
@@ -48,6 +69,26 @@ export interface AuthServiceClient {
    * 로그아웃
    */
   logout(): Promise<Empty>;
+
+  /**
+   * 이메일 찾기 요청 step 1
+   */
+  findEmailFirstStep(request: FindEmailFirstStepRequest): Promise<Empty>;
+
+  /**
+   * 이메일 찾기 요청 step 2
+   */
+  findEmailSecondStep(request: CodeCheckRequest): Promise<FindEmailSecondStepResponse>;
+
+  /**
+   * 비밀번호 찾기 요청 step 1
+   */
+  findPasswordFirstStep(request: FindPasswordFirstStepRequest): Promise<Empty>;
+
+  /**
+   * 비밀번호 찾기 요청 step 2
+   */
+  findPasswordSecondStep(request: CodeCheckRequest): Promise<Empty>;
 
   /**
    * refreshToken 을 헤더에 포함시켜 accessToken 을 새로 발급 받습니다.

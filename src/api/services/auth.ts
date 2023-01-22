@@ -14,6 +14,22 @@ export const AuthService: AuthServiceClient = {
     return await api.get('/auth/logout');
   },
 
+  async findEmailFirstStep() {
+    return await api.post('/auth/finder/email');
+  },
+
+  async findEmailSecondStep() {
+    return await api.post('/auth/finder/email/check');
+  },
+
+  async findPasswordFirstStep() {
+    return await api.post('/auth/finder/password');
+  },
+
+  async findPasswordSecondStep() {
+    return await api.post('/auth/finder/password/check');
+  },
+
   async reIssueAccessToken(body) {
     return await api.get('/auth/reissue', {
       headers: {

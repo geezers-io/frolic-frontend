@@ -5,6 +5,7 @@ export interface User {
   email: string;
   username: string;
   realname: string;
+  phoneNumber: string;
   createdDate: string;
   updatedDate: string;
 }
@@ -30,6 +31,7 @@ export interface UpdateMeRequest {
   email: string;
   username: string;
   realname: string;
+  phoneNumber: string;
 }
 
 export interface UpdateMyPasswordRequest {

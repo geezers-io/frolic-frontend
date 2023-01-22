@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useRecoilState } from 'recoil';
 
-import { UpdateMeRequest } from 'api/@types/user';
+import { UpdateMeRequest, UserDetail } from 'api/@types/user';
 import { UserService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
@@ -27,7 +27,10 @@ const UserConfigForm: React.FC = () => {
       try {
         // setLoading(true);
         const updated = await UserService.updateMe(values);
-        setMe(updated);
+        setMe((prev) => ({
+          ...(prev as UserDetail),
+          userInfo: updated,
+        }));
         messageApi.success('사용자 정보가 변경되었습니다.');
       } catch (error) {
         messageApi.error(error.message);
@@ -37,7 +40,6 @@ const UserConfigForm: React.FC = () => {
     },
     [messageApi, setMe]
   );
-  console.log('me', me);
 
   return (
     <>
