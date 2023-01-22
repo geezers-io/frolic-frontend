@@ -9,7 +9,7 @@ import { requiredRule } from 'utils/formRules';
 import { phoneNumberRegex } from 'utils/regex';
 
 interface Props {
-  next: () => void;
+  next: (values: FindEmailFirstStepRequest) => void;
 }
 
 interface FormValues extends FindEmailFirstStepRequest {}
@@ -22,7 +22,7 @@ const FindEmailFirstStep: React.FC<Props> = ({ next }) => {
     async (values: FormValues) => {
       try {
         await AuthService.findEmailFirstStep(values);
-        next();
+        next(values);
       } catch (err) {
         messageApi.error(err.message);
       }

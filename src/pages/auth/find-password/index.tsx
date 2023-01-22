@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 
 import { StepProps, Steps } from 'antd';
 
+import { FindPasswordFirstStepRequest } from 'api/@types/auth';
 import FindPasswordDone from 'components/auth/FindPasswordDone';
 import FindPasswordFirstStep from 'components/auth/FindPasswordFirstStep';
 import FindPasswordSecondStep from 'components/auth/FindPasswordSecondStep';
@@ -18,12 +19,12 @@ const stepItems: StepProps[] = [{}, {}];
 
 const FindPasswordPage: NextPage = () => {
   const [step, setStep] = useState<FindPasswordStep>(FindPasswordStep.First);
-  const [email, setEmail] = useState('');
+  const [firstStepValues, setFirstStepValues] = useState<FindPasswordFirstStepRequest>();
 
   const next = useMemo(
     () => ({
-      firstStep(email: string) {
-        setEmail(email);
+      firstStep(values: FindPasswordFirstStepRequest) {
+        setFirstStepValues(values);
         setStep(FindPasswordStep.Second);
       },
       secondStep() {
@@ -45,9 +46,11 @@ const FindPasswordPage: NextPage = () => {
       />
       {step === FindPasswordStep.First && <FindPasswordFirstStep next={next.firstStep} />}
 
-      {step === FindPasswordStep.Second && <FindPasswordSecondStep next={next.secondStep} />}
+      {step === FindPasswordStep.Second && firstStepValues && (
+        <FindPasswordSecondStep next={next.secondStep} firstStepValues={firstStepValues} />
+      )}
 
-      {step === FindPasswordStep.Done && email && <FindPasswordDone email={email} />}
+      {step === FindPasswordStep.Done && firstStepValues?.email && <FindPasswordDone email={firstStepValues.email} />}
     </AuthLayout>
   );
 };

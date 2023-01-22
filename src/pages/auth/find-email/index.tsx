@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 
 import { StepProps, Steps } from 'antd';
 
+import { FindEmailFirstStepRequest } from 'api/@types/auth';
 import FindEmailDone from 'components/auth/FindEmailDone';
 import FindEmailFirstStep from 'components/auth/FindEmailFirstStep';
 import FindEmailSecondStep from 'components/auth/FindEmailSecondStep';
@@ -19,10 +20,12 @@ const stepItems: StepProps[] = [{}, {}];
 const FindEmailPage: NextPage = () => {
   const [step, setStep] = useState<FindEmailStep>(FindEmailStep.First);
   const [email, setEmail] = useState('');
+  const [firstStepValues, setFirstStepValues] = useState<FindEmailFirstStepRequest>();
 
   const next = useMemo(
     () => ({
-      firstStep() {
+      firstStep(values: FindEmailFirstStepRequest) {
+        setFirstStepValues(values);
         setStep(FindEmailStep.Second);
       },
       secondStep(email: string) {
@@ -45,7 +48,9 @@ const FindEmailPage: NextPage = () => {
       />
       {step === FindEmailStep.First && <FindEmailFirstStep next={next.firstStep} />}
 
-      {step === FindEmailStep.Second && <FindEmailSecondStep next={next.secondStep} />}
+      {step === FindEmailStep.Second && firstStepValues && (
+        <FindEmailSecondStep next={next.secondStep} firstStepValues={firstStepValues} />
+      )}
 
       {step === FindEmailStep.Done && email && <FindEmailDone email={email} />}
     </AuthLayout>
