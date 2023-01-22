@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { message } from 'antd';
 import shortid from 'shortid';
@@ -13,21 +13,14 @@ import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
 import AppLayout from 'layouts/AppLayout';
 import { hashtagsParser } from 'utils/hashtagParser';
 
-const SearchPage: NextPage = () => {
+interface Props {
+  hashtags: string[];
+}
+
+const SearchPage: NextPage<Props> = ({ hashtags }) => {
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
   const [posts, setPosts] = useState<Post[]>();
-
-  const hashtags = useMemo<string[]>(() => {
-    // TODO: router.query 에 hashtags 가 어떤 식으로 들어오는지 확인할 것. qs.parse 따로 해야하는지?
-    const tagsQuery = (router.query.hashtags ?? '') as string;
-    const tags = hashtagsParser.deserialize(tagsQuery);
-
-    if (typeof tags === 'string') return [tags];
-    if (Array.isArray(tags)) return tags;
-
-    throw new Error('Invalid tags type');
-  }, [router.query.hashtags]);
 
   const getPosts = useCallback(async () => {
     try {
@@ -73,6 +66,19 @@ const SearchPage: NextPage = () => {
       )}
     </AppLayout>
   );
+};
+
+SearchPage.getInitialProps = async (ctx) => {
+  const hashtags = (() => {
+    const tagsQuery = (ctx.query.hashtags ?? '') as string;
+    const tags = hashtagsParser.deserialize(tagsQuery);
+
+    if (typeof tags === 'string') return [tags];
+    if (Array.isArray(tags)) return tags;
+    return [];
+  })();
+
+  return { hashtags };
 };
 
 export default SearchPage;

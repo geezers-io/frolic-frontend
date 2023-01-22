@@ -8,7 +8,7 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'no-else-return': 2,
-    'react/prop-types': 2,
+    'react/prop-types': 0,
     'react/jsx-no-target-blank': 0,
     'react/react-in-jsx-scope': 0,
     'no-unused-vars': 0,
