@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { Button, Typography } from 'antd';
+import { Button } from 'antd';
 
 interface Props {
   email: string;
 }
 
-const FindEmailDone: React.FC<Props> = ({ email }) => {
+const FindPasswordDone: React.FC<Props> = ({ email }) => {
   const router = useRouter();
 
   const moveToSignInPage = () => {
@@ -18,11 +18,7 @@ const FindEmailDone: React.FC<Props> = ({ email }) => {
     <>
       <section className="my-8">
         <span className="leading-6">
-          귀하의 이메일은{' '}
-          <Typography.Text copyable underline>
-            {email}
-          </Typography.Text>{' '}
-          입니다.
+          입력하신 이메일(<b>{email}</b>)로 임시 비밀번호가 발송되었습니다.
         </span>
       </section>
 
@@ -33,4 +29,4 @@ const FindEmailDone: React.FC<Props> = ({ email }) => {
   );
 };
 
-export default FindEmailDone;
+export default FindPasswordDone;
