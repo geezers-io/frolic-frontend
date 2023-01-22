@@ -8,7 +8,7 @@ import { UserService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
 import { requiredRule } from 'utils/formRules';
-import { realnameRegex, usernameRegex } from 'utils/regex';
+import { phoneNumberRegex, realnameRegex, usernameRegex } from 'utils/regex';
 
 interface FormValues extends UpdateMeRequest {}
 
@@ -93,11 +93,25 @@ const UserConfigForm: React.FC = () => {
           >
             <Input allowClear />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              변경하기
-            </Button>
+          <Form.Item
+            name="phoneNumber"
+            label="전화번호"
+            hasFeedback={hasFeedback}
+            tooltip="하이픈(-)없이 숫자만 입력하세요."
+            rules={[
+              requiredRule,
+              {
+                pattern: phoneNumberRegex,
+                message: '하이픈(-)없이 9~11자 숫자를 사용하세요',
+              },
+            ]}
+          >
+            <Input allowClear />
           </Form.Item>
+
+          <Button type="primary" htmlType="submit">
+            변경하기
+          </Button>
         </Form>
       </section>
     </>

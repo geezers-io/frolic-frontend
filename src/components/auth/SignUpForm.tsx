@@ -9,10 +9,12 @@ import { AuthService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
 import { requiredRule } from 'utils/formRules';
-import { passwordRegex, realnameRegex, usernameRegex } from 'utils/regex';
+import { passwordRegex, phoneNumberRegex, realnameRegex, usernameRegex } from 'utils/regex';
 import { token } from 'utils/token';
 
-interface FormValues extends CreateUserRequest {}
+interface FormValues extends CreateUserRequest {
+  passwordConfirm?: string;
+}
 
 const layout = {
   labelCol: { span: 24 },
@@ -119,7 +121,7 @@ const SignUpForm: React.FC = () => {
             name="username"
             label="사용자 아이디"
             hasFeedback={hasFeedback}
-            tooltip="다른 사람들에게 보여질 사용자명입니다."
+            tooltip="다른 사람들에게 보여질 이름입니다. 언제든지 변경할 수 있습니다."
             rules={[
               requiredRule,
               {
@@ -144,11 +146,25 @@ const SignUpForm: React.FC = () => {
           >
             <Input allowClear />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" size="large" htmlType="submit" className="w-full mt-4">
-              가입하기
-            </Button>
+          <Form.Item
+            name="phoneNumber"
+            label="전화번호"
+            hasFeedback={hasFeedback}
+            tooltip="하이픈(-)없이 숫자만 입력하세요."
+            rules={[
+              requiredRule,
+              {
+                pattern: phoneNumberRegex,
+                message: '하이픈(-)없이 9~11자 숫자를 사용하세요',
+              },
+            ]}
+          >
+            <Input allowClear />
           </Form.Item>
+
+          <Button type="primary" size="large" htmlType="submit" className="w-full mt-4">
+            가입하기
+          </Button>
         </Form>
       </section>
     </>
