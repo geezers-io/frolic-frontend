@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -12,7 +13,7 @@ import PostCreateButton from 'components/post/postForm/PostCreateButton';
 import AppLayout from 'layouts/AppLayout';
 import atomStore from 'stores/atom';
 
-const MainPage: React.FC = () => {
+const MainPage: NextPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useRecoilState(atomStore.mainPagePostsAtom);
   const [initialLoaded, setInitialLoaded] = useState(false);

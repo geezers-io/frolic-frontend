@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { message } from 'antd';
-import qs from 'qs';
 import shortid from 'shortid';
 
 import { Post } from 'api/@types/posts';
@@ -12,6 +11,7 @@ import EmptyFeed from 'components/empty/EmptyFeed';
 import PostCard from 'components/post/postCard/PostCard';
 import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
 import AppLayout from 'layouts/AppLayout';
+import { hashtagsParser } from 'utils/hashtagParser';
 
 const SearchPage: NextPage = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const SearchPage: NextPage = () => {
   const hashtags = useMemo<string[]>(() => {
     // TODO: router.query 에 hashtags 가 어떤 식으로 들어오는지 확인할 것. qs.parse 따로 해야하는지?
     const tagsQuery = (router.query.hashtags ?? '') as string;
-    const tags = qs.parse(tagsQuery);
+    const tags = hashtagsParser.deserialize(tagsQuery);
 
     if (typeof tags === 'string') return [tags];
     if (Array.isArray(tags)) return tags;

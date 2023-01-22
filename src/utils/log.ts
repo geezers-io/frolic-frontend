@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 
 const color = {
   info: '#0490C8',
@@ -44,7 +44,7 @@ type PrintErrorLogParams = {
   method?: string;
   endPoint?: string;
   errorMessage?: string;
-  errorObj?: Record<string, unknown>;
+  errorObj?: AxiosError;
 };
 export function printErrorLog({ method, endPoint, errorMessage, errorObj }: PrintErrorLogParams) {
   console.log(
