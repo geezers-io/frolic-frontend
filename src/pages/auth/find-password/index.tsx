@@ -35,7 +35,11 @@ const FindPasswordPage: NextPage = () => {
   );
 
   return (
-    <AuthLayout title="비밀번호 찾기" hideHeaderSearchIcon>
+    <AuthLayout
+      title="비밀번호 찾기"
+      goBackLink={step === FindPasswordStep.First ? '/auth/sign-in' : undefined}
+      hideHeaderSearchIcon
+    >
       <Steps
         direction="horizontal"
         responsive={false}

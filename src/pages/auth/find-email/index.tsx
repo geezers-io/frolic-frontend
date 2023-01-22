@@ -37,7 +37,11 @@ const FindEmailPage: NextPage = () => {
   );
 
   return (
-    <AuthLayout title="이메일 찾기" hideHeaderSearchIcon>
+    <AuthLayout
+      title="이메일 찾기"
+      goBackLink={step === FindEmailStep.First ? '/auth/sign-in' : undefined}
+      hideHeaderSearchIcon
+    >
       <Steps
         direction="horizontal"
         responsive={false}

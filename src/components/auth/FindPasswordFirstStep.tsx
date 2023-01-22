@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useCallback } from 'react';
 
 import { Button, Form, Input, message } from 'antd';
@@ -40,20 +41,6 @@ const FindPasswordFirstStep: React.FC<Props> = ({ next }) => {
         onFinishFailed={onFormFinishFailed}
       >
         <Form.Item
-          name="email"
-          label="이메일"
-          hasFeedback={hasFeedback}
-          rules={[
-            requiredRule,
-            {
-              type: 'email',
-              message: '올바른 이메일을 입력해주세요',
-            },
-          ]}
-        >
-          <Input allowClear />
-        </Form.Item>
-        <Form.Item
           name="phoneNumber"
           label="전화번호"
           hasFeedback={hasFeedback}
@@ -66,6 +53,25 @@ const FindPasswordFirstStep: React.FC<Props> = ({ next }) => {
           ]}
         >
           <Input allowClear placeholder="01000000000" />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="이메일"
+          hasFeedback={hasFeedback}
+          rules={[
+            requiredRule,
+            {
+              type: 'email',
+              message: '올바른 이메일을 입력해주세요',
+            },
+          ]}
+          extra={
+            <span>
+              이메일이 기억나지 않는다면? <Link href="/auth/find-email">이메일 찾기</Link>
+            </span>
+          }
+        >
+          <Input allowClear />
         </Form.Item>
 
         <Button type="primary" htmlType="submit" className="float-right">
