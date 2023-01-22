@@ -1,4 +1,4 @@
-import 'pages/setup';
+import 'utils/setup';
 import 'styles/styles.css';
 import 'swiper/css';
 import 'swiper/css/pagination';

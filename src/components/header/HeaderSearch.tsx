@@ -3,9 +3,9 @@ import React, { useCallback, useRef } from 'react';
 
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, message, Modal } from 'antd';
-import qs from 'qs';
 
 import { useModal } from 'hooks/useModal';
+import { hashtagsParser } from 'utils/hashtagParser';
 
 const HeaderSearch: React.FC = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const HeaderSearch: React.FC = () => {
         return;
       }
 
-      const hashtags = searchText.match(/#+[가-힣a-zA-Z0-9]+/g);
+      const hashtags = searchText.match(/#+[가-힣ㄱ-ㅎa-zA-Z0-9]+/g);
 
       if (!hashtags) {
         return message.error('해시태그로 검색해주세요.');
@@ -30,7 +30,10 @@ const HeaderSearch: React.FC = () => {
         return message.error('해시태그는 5개 이상 검색할 수 없습니다.');
       }
 
-      router.push(`/search?${qs.stringify({ hashtags: filteredHashTags })}`);
+      router.push({
+        pathname: '/search',
+        query: { hashtags: hashtagsParser.serialize(filteredHashTags) },
+      });
     },
     [router]
   );
