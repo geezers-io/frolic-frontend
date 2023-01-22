@@ -42,7 +42,7 @@ export function getServerUrlByMode(mode = MODE_NAME_DICT.TEST) {
     case MODE_NAME_DICT.DEVELOPMENT:
       return ENDPOINT_DICT.DEVELOPMENT;
     case MODE_NAME_DICT.PRODUCTION:
-      throw Error('배포 환경이 정의되지 않았습니다.');
+      return ENDPOINT_DICT.PRODUCTION;
     case MODE_NAME_DICT.TEST:
       return ENDPOINT_DICT.TEST;
     default:

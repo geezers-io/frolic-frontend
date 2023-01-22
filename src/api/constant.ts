@@ -7,5 +7,5 @@ export const MODE_NAME_DICT = {
 export const ENDPOINT_DICT = {
   DEVELOPMENT: 'http://localhost:8080/api',
   TEST: 'https://galaxyhi4276.co/api',
-  PRODUCTION: '<production_url>',
+  PRODUCTION: 'https://galaxyhi4276.co/api',
 };
