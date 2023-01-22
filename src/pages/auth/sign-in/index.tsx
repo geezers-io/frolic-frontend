@@ -5,7 +5,7 @@ import SignInForm from 'components/auth/SignInForm';
 import AuthLayout from 'layouts/AuthLayout';
 
 const SignInPage: NextPage = () => (
-  <AuthLayout hideHeaderSearchIcon hideHeaderProfileIcon>
+  <AuthLayout title="로그인" hideHeaderSearchIcon hideHeaderProfileIcon>
     <SignInForm />
   </AuthLayout>
 );

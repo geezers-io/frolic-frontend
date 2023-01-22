@@ -20,7 +20,7 @@ const menuItems: ItemType[] = [
   { type: 'divider' },
   { label: '비밀번호 변경', key: MenuKeys.PasswordConfig },
   { type: 'divider' },
-  { label: '계정삭제', key: MenuKeys.DeleteUser, danger: true },
+  { label: '계정 삭제', key: MenuKeys.DeleteUser, danger: true },
 ];
 
 const UserConfigDropdown: React.FC<Props> = ({ style }) => {

@@ -44,6 +44,7 @@ const UserConfigForm: React.FC = () => {
   return (
     <>
       {contextHolder}
+
       <section className="w-full">
         <Form<FormValues>
           onFinish={submitUserConfig}
@@ -109,7 +110,7 @@ const UserConfigForm: React.FC = () => {
             <Input allowClear />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="float-right">
             변경하기
           </Button>
         </Form>

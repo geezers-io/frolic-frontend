@@ -6,7 +6,7 @@ import AuthLayout from 'layouts/AuthLayout';
 
 const UserConfigPage: NextPage = () => {
   return (
-    <AuthLayout>
+    <AuthLayout title="프로필 변경">
       <UserConfigForm />
     </AuthLayout>
   );

@@ -6,7 +6,7 @@ import AuthLayout from 'layouts/AuthLayout';
 
 const UserDeletePage: NextPage = () => {
   return (
-    <AuthLayout>
+    <AuthLayout title="계정 삭제">
       <UserDeleteForm />
     </AuthLayout>
   );

@@ -53,44 +53,40 @@ const SignInForm: React.FC = () => {
     <>
       {contextHolder}
 
-      <section className="w-full">
-        <h1 className="text-2xl mt-3 mb-7 text-center">로그인</h1>
+      <Form<FormValues>
+        onFinish={onFinish}
+        validateTrigger={formValidateTrigger}
+        onFinishFailed={onFormFinishFailed}
+        scrollToFirstError
+      >
+        <Form.Item name="email" rules={[requiredRule]} hasFeedback={hasFeedback}>
+          <Input prefix={<UserOutlined />} placeholder="이메일" allowClear />
+        </Form.Item>
+        <Form.Item name="password" rules={[requiredRule]} hasFeedback={hasFeedback}>
+          <Input.Password prefix={<LockOutlined />} type="password" placeholder="비밀번호" allowClear />
+        </Form.Item>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox>로그인 상태 유지</Checkbox>
+        </Form.Item>
 
-        <Form<FormValues>
-          onFinish={onFinish}
-          validateTrigger={formValidateTrigger}
-          onFinishFailed={onFormFinishFailed}
-          scrollToFirstError
-        >
-          <Form.Item name="email" rules={[requiredRule]} hasFeedback={hasFeedback}>
-            <Input prefix={<UserOutlined />} placeholder="이메일" allowClear />
-          </Form.Item>
-          <Form.Item name="password" rules={[requiredRule]} hasFeedback={hasFeedback}>
-            <Input.Password prefix={<LockOutlined />} type="password" placeholder="비밀번호" allowClear />
-          </Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>로그인 상태 유지</Checkbox>
-          </Form.Item>
+        <Button type="primary" size="large" htmlType="submit" className="w-full mt-5 mb-4">
+          로그인
+        </Button>
 
-          <Button type="primary" size="large" htmlType="submit" className="w-full mt-5 mb-4">
-            로그인
-          </Button>
-
-          <div className="flex items-center justify-center pr-3">
-            <Link href="/auth/find-password" className="p-0 text-gray-600">
-              비밀번호 찾기
-            </Link>
-            <Divider type="vertical" className="mt-0.5 border-gray-300" />
-            <Link href="/auth/find-email" className="p-0 text-gray-600">
-              이메일 찾기
-            </Link>
-            <Divider type="vertical" className="mt-0.5 border-gray-300" />
-            <Link href="/auth/sign-up" className="p-0 text-gray-600">
-              회원가입
-            </Link>
-          </div>
-        </Form>
-      </section>
+        <div className="flex items-center justify-center pr-3">
+          <Link href="/auth/find-password" className="p-0 text-gray-600">
+            비밀번호 찾기
+          </Link>
+          <Divider type="vertical" className="mt-0.5 border-gray-300" />
+          <Link href="/auth/find-email" className="p-0 text-gray-600">
+            이메일 찾기
+          </Link>
+          <Divider type="vertical" className="mt-0.5 border-gray-300" />
+          <Link href="/auth/sign-up" className="p-0 text-gray-600">
+            회원가입
+          </Link>
+        </div>
+      </Form>
     </>
   );
 };

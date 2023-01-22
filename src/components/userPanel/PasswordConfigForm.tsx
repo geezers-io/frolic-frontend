@@ -38,6 +38,7 @@ const PasswordConfigForm: React.FC = () => {
   return (
     <>
       {contextHolder}
+
       <Form<FormValues>
         className="w-full"
         form={form}
@@ -84,11 +85,10 @@ const PasswordConfigForm: React.FC = () => {
         >
           <Input.Password allowClear />
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            변경하기
-          </Button>
-        </Form.Item>
+
+        <Button type="primary" htmlType="submit" className="float-right">
+          변경하기
+        </Button>
       </Form>
     </>
   );
