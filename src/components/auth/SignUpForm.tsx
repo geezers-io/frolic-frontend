@@ -147,7 +147,6 @@ const SignUpForm: React.FC = () => {
           name="phoneNumber"
           label="전화번호"
           hasFeedback={hasFeedback}
-          tooltip="하이픈(-)없이 숫자만 입력하세요."
           rules={[
             requiredRule,
             {
@@ -156,7 +155,7 @@ const SignUpForm: React.FC = () => {
             },
           ]}
         >
-          <Input allowClear />
+          <Input allowClear placeholder="01000000000" />
         </Form.Item>
 
         <Button type="primary" size="large" htmlType="submit" className="w-full mt-4">

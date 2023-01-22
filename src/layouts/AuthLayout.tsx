@@ -14,7 +14,7 @@ const AuthLayout: React.FC<Props> = ({ title, children, hideHeaderProfileIcon, h
     <Header hideSearchIcon={hideHeaderSearchIcon} hideProfileIcon={hideHeaderProfileIcon} />
 
     <div className="h-full flex flex-col justify-center px-2">
-      <main className="bg-white rounded-md px-2 py-6 shadow-lg">
+      <main className="bg-white rounded-md px-4 py-6 shadow-lg">
         {title && (
           <header className="mb-8">
             <h1 className="text-xl text-center">{title}</h1>
