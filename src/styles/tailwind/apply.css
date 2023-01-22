@@ -33,3 +33,7 @@ textarea::placeholder {
 .ant-input-textarea textarea::placeholder {
   @apply text-lg text-gray-500;
 }
+
+.ant-typography .ant-typography-copy {
+  @apply text-pink-600;
+}

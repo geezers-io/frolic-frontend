@@ -37,6 +37,8 @@ export interface FindEmailFirstStepRequest {
   phoneNumber: string;
 }
 
+export interface FindEmailSecondStepRequest extends CodeCheckRequest {}
+
 export interface FindEmailSecondStepResponse {
   email: string;
 }
@@ -45,6 +47,8 @@ export interface FindPasswordFirstStepRequest {
   email: string;
   phoneNumber: string;
 }
+
+export interface FindPasswordSecondStepRequest extends CodeCheckRequest {}
 
 export interface ReIssueAccessTokenRequest {
   refreshToken: string;
@@ -78,7 +82,7 @@ export interface AuthServiceClient {
   /**
    * 이메일 찾기 요청 step 2
    */
-  findEmailSecondStep(request: CodeCheckRequest): Promise<FindEmailSecondStepResponse>;
+  findEmailSecondStep(request: FindEmailSecondStepRequest): Promise<FindEmailSecondStepResponse>;
 
   /**
    * 비밀번호 찾기 요청 step 1
@@ -88,7 +92,7 @@ export interface AuthServiceClient {
   /**
    * 비밀번호 찾기 요청 step 2
    */
-  findPasswordSecondStep(request: CodeCheckRequest): Promise<Empty>;
+  findPasswordSecondStep(request: FindPasswordSecondStepRequest): Promise<Empty>;
 
   /**
    * refreshToken 을 헤더에 포함시켜 accessToken 을 새로 발급 받습니다.
