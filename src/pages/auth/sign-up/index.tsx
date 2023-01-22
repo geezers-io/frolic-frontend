@@ -5,7 +5,7 @@ import SignUpForm from 'components/auth/SignUpForm';
 import AuthLayout from 'layouts/AuthLayout';
 
 const SignUpPage: NextPage = () => (
-  <AuthLayout hideHeaderSearchIcon>
+  <AuthLayout title="회원가입" hideHeaderSearchIcon>
     <SignUpForm />
   </AuthLayout>
 );

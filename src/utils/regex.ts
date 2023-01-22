@@ -6,3 +6,6 @@ export const usernameRegex = /^(?=.*[a-zA-Z0-9])(?=.*_?)[a-zA-Z0-9_]{4,15}$/;
 
 // 실명 - 1~12자 영문 대 소문자, 한글
 export const realnameRegex = /^(?=.[가-힣ㄱ-ㅎa-zA-Z])[가-힣ㄱ-ㅎa-zA-Z]{1,12}$/;
+
+// 전화번호 - 9-11자 숫자
+export const phoneNumberRegex = /^\d{9,11}$/;

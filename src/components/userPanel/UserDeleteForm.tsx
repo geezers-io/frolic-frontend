@@ -41,9 +41,9 @@ const UserDeleteForm: React.FC = () => {
   );
 
   return (
-    <div className="w-full flex flex-col">
+    <>
       {contextHolder}
-      <span className="text-center font-bold text-lg mb-5">계정 삭제를 위한 비밀번호 확인</span>
+
       <Form<FormValues>
         onFinish={deleteUser}
         validateTrigger={formValidateTrigger}
@@ -52,7 +52,11 @@ const UserDeleteForm: React.FC = () => {
         {...layout}
       >
         <Form.Item
-          label={`${me?.userInfo.username} 을 입력해주세요`}
+          label={
+            <span>
+              <b>{me?.userInfo.username}</b> 을(를) 입력해주세요
+            </span>
+          }
           name="username"
           rules={[
             () => ({
@@ -65,7 +69,7 @@ const UserDeleteForm: React.FC = () => {
             }),
           ]}
         >
-          <Input />
+          <Input placeholder={me?.userInfo.username} allowClear />
         </Form.Item>
         <Form.Item
           label="비밀번호"
@@ -81,13 +85,12 @@ const UserDeleteForm: React.FC = () => {
         >
           <Input.Password allowClear />
         </Form.Item>
-        <Form.Item>
-          <Button danger htmlType="submit">
-            계정 삭제
-          </Button>
-        </Form.Item>
+
+        <Button danger block htmlType="submit" className="float-right mt-5">
+          계정 삭제
+        </Button>
       </Form>
-    </div>
+    </>
   );
 };
 

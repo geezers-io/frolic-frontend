@@ -3,12 +3,12 @@ import React, { useCallback } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useRecoilState } from 'recoil';
 
-import { UpdateMeRequest } from 'api/@types/user';
+import { UpdateMeRequest, UserDetail } from 'api/@types/user';
 import { UserService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
 import { requiredRule } from 'utils/formRules';
-import { realnameRegex, usernameRegex } from 'utils/regex';
+import { phoneNumberRegex, realnameRegex, usernameRegex } from 'utils/regex';
 
 interface FormValues extends UpdateMeRequest {}
 
@@ -27,7 +27,10 @@ const UserConfigForm: React.FC = () => {
       try {
         // setLoading(true);
         const updated = await UserService.updateMe(values);
-        setMe(updated);
+        setMe((prev) => ({
+          ...(prev as UserDetail),
+          userInfo: updated,
+        }));
         messageApi.success('사용자 정보가 변경되었습니다.');
       } catch (error) {
         messageApi.error(error.message);
@@ -37,11 +40,11 @@ const UserConfigForm: React.FC = () => {
     },
     [messageApi, setMe]
   );
-  console.log('me', me);
 
   return (
     <>
       {contextHolder}
+
       <section className="w-full">
         <Form<FormValues>
           onFinish={submitUserConfig}
@@ -91,11 +94,25 @@ const UserConfigForm: React.FC = () => {
           >
             <Input allowClear />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              변경하기
-            </Button>
+          <Form.Item
+            name="phoneNumber"
+            label="전화번호"
+            hasFeedback={hasFeedback}
+            tooltip="하이픈(-)없이 숫자만 입력하세요."
+            rules={[
+              requiredRule,
+              {
+                pattern: phoneNumberRegex,
+                message: '하이픈(-)없이 9~11자 숫자를 사용하세요',
+              },
+            ]}
+          >
+            <Input allowClear />
           </Form.Item>
+
+          <Button type="primary" htmlType="submit" className="float-right">
+            변경하기
+          </Button>
         </Form>
       </section>
     </>

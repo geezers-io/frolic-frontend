@@ -6,7 +6,7 @@ import AuthLayout from 'layouts/AuthLayout';
 
 const PasswordConfigPage: NextPage = () => {
   return (
-    <AuthLayout>
+    <AuthLayout title="비밀번호 변경">
       <PasswordConfigForm />
     </AuthLayout>
   );
