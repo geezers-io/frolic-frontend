@@ -17,7 +17,7 @@ const FindEmailDone: React.FC<Props> = ({ email }) => {
   return (
     <>
       <section className="my-8">
-        <span className="leading-6">
+        <span className="text-[15px] leading-6">
           귀하의 이메일은{' '}
           <Typography.Text copyable underline>
             {email}

@@ -17,7 +17,7 @@ const FindPasswordDone: React.FC<Props> = ({ email }) => {
   return (
     <>
       <section className="my-8">
-        <span className="leading-6">
+        <span className="text-[15px] leading-6">
           입력하신 이메일(<b>{email}</b>)로 임시 비밀번호가 발송되었습니다.
         </span>
       </section>
