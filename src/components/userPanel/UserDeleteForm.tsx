@@ -8,15 +8,11 @@ import { DeleteMeRequest } from 'api/@types/user';
 import { UserService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
+import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 import { passwordRegex } from 'utils/regex';
 
 interface FormValues extends DeleteMeRequest {}
-
-const layout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-};
 
 const UserDeleteForm: React.FC = () => {
   const router = useRouter();
@@ -49,7 +45,7 @@ const UserDeleteForm: React.FC = () => {
         validateTrigger={formValidateTrigger}
         onFinishFailed={onFormFinishFailed}
         form={form}
-        {...layout}
+        {...formLayout}
       >
         <Form.Item
           label={

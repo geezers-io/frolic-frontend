@@ -5,6 +5,7 @@ import { Button, Form, Input, message } from 'antd';
 import { FindEmailFirstStepRequest } from 'api/@types/auth';
 import { AuthService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
+import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 import { phoneNumberRegex } from 'utils/regex';
 
@@ -38,6 +39,7 @@ const FindEmailFirstStep: React.FC<Props> = ({ next }) => {
         validateTrigger={formValidateTrigger}
         onFinish={handleSubmit}
         onFinishFailed={onFormFinishFailed}
+        {...formLayout}
       >
         <Form.Item
           name="phoneNumber"

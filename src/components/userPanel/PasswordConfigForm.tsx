@@ -5,15 +5,11 @@ import { Button, Form, Input, message } from 'antd';
 import { UpdateMyPasswordRequest } from 'api/@types/user';
 import { UserService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
+import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 import { passwordRegex } from 'utils/regex';
 
 interface FormValues extends UpdateMyPasswordRequest {}
-
-const layout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-};
 
 const PasswordConfigForm: React.FC = () => {
   const { formValidateTrigger, onFormFinishFailed, hasFeedback } = useFormValidateTrigger();
@@ -46,7 +42,7 @@ const PasswordConfigForm: React.FC = () => {
         validateTrigger={formValidateTrigger}
         onFinishFailed={onFormFinishFailed}
         scrollToFirstError
-        {...layout}
+        {...formLayout}
       >
         <Form.Item name="prevPassword" label="기존 비밀번호" rules={[requiredRule]} hasFeedback={hasFeedback}>
           <Input.Password />

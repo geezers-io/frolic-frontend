@@ -8,6 +8,7 @@ import { CreateUserRequest } from 'api/@types/auth';
 import { AuthService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
+import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 import { passwordRegex, phoneNumberRegex, realnameRegex, usernameRegex } from 'utils/regex';
 import { token } from 'utils/token';
@@ -15,11 +16,6 @@ import { token } from 'utils/token';
 interface FormValues extends CreateUserRequest {
   passwordConfirm?: string;
 }
-
-const layout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-};
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
@@ -64,7 +60,7 @@ const SignUpForm: React.FC = () => {
         onFinish={createUser}
         onFinishFailed={onFormFinishFailed}
         scrollToFirstError
-        {...layout}
+        {...formLayout}
       >
         <Form.Item
           name="email"
