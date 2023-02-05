@@ -4,14 +4,17 @@ import flow from 'lodash/flow';
 import { ApiMethods } from 'api/@types/@shared';
 import { token } from 'utils/token';
 
-import { getErrorMessage, getRequestArgs, getServerUrlByMode } from './helper';
+import { getErrorMessage, getRequestArgs } from './helper';
 import { setAccessToken, logRequest } from './interceptors/request';
 import { logError, logResponse } from './interceptors/response';
 import { AuthService } from './services';
 
-const { REACT_APP_MODE } = process.env;
+const API_URL = {
+  development: 'http://localhost:8080/api',
+  test: 'https://galaxyhi4276.co/api',
+  production: 'https://galaxyhi4276.co/api',
+}[process.env.NODE_ENV ?? 'development'];
 
-const API_URL = getServerUrlByMode(REACT_APP_MODE);
 const tokenErrorStatusList = [401, 403];
 
 const _axios = axios.create({
