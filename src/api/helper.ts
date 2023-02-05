@@ -2,8 +2,6 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { ApiMethods } from 'api/@types/@shared';
 
-import { ENDPOINT_DICT, MODE_NAME_DICT } from './constant';
-
 export function getRequestArgs(
   method: keyof ApiMethods,
   route: string,
@@ -35,17 +33,4 @@ export function getErrorMessage(e: AxiosError) {
     e.message /* http error */ ??
     'Unknown error occurred'
   );
-}
-
-export function getServerUrlByMode(mode = MODE_NAME_DICT.TEST) {
-  switch (mode) {
-    case MODE_NAME_DICT.DEVELOPMENT:
-      return ENDPOINT_DICT.DEVELOPMENT;
-    case MODE_NAME_DICT.PRODUCTION:
-      return ENDPOINT_DICT.PRODUCTION;
-    case MODE_NAME_DICT.TEST:
-      return ENDPOINT_DICT.TEST;
-    default:
-      return ENDPOINT_DICT.DEVELOPMENT;
-  }
 }
