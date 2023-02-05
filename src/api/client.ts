@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import flow from 'lodash/flow';
 
 import { ApiMethods } from 'api/@types/@shared';
+import { flow } from 'utils/flow';
 import { token } from 'utils/token';
 
 import { getErrorMessage, getRequestArgs } from './helper';
