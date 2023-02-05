@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Typography } from 'antd';
-import shortid from 'shortid';
 
 const { Text } = Typography;
 
@@ -12,7 +11,7 @@ interface Props {
 const PostCardHashtags: React.FC<Props> = ({ tags }) => (
   <>
     {tags.map((tag) => (
-      <Text className="text-sky-500 pr-0.5" key={shortid.generate()}>
+      <Text className="text-sky-500 pr-0.5" key={'postCardHashTag-' + tag}>
         {tag}
       </Text>
     ))}

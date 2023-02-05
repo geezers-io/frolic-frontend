@@ -4,10 +4,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { MoreOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useRecoilValue } from 'recoil';
-import shortid from 'shortid';
 
 import { Post } from 'api/@types/posts';
-import HashtagList from 'components/hashtag/HashtagList';
+import Hashtag from 'components/hashtag/Hashtag';
 import PostDropdown from 'components/post/postCard/PostDropdown';
 import PostCardFooter from 'components/post/postCard/postFooter/PostCardFooter';
 import UserIcon from 'components/userPanel/UserIcon';
@@ -48,7 +47,6 @@ const PostCard: React.FC<Props> = ({ post }) => {
 
   return (
     <article
-      key={shortid.generate()}
       className="card flex border-gray-200 p-3"
       style={{
         borderTop: '1px solid',
@@ -92,7 +90,9 @@ const PostCard: React.FC<Props> = ({ post }) => {
           </section>
           <section className="mt-2">
             <span>{textContent}</span>
-            <HashtagList tags={hashtags} />
+            {hashtags.map((tag) => (
+              <Hashtag key={'postCardHashtag-' + tag} tag={tag} />
+            ))}
           </section>
         </section>
 
