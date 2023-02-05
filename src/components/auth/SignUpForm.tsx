@@ -8,7 +8,6 @@ import { CreateUserRequest } from 'api/@types/auth';
 import { AuthService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
-import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 import { passwordRegex, phoneNumberRegex, realnameRegex, usernameRegex } from 'utils/regex';
 import { token } from 'utils/token';
@@ -60,7 +59,7 @@ const SignUpForm: React.FC = () => {
         onFinish={createUser}
         onFinishFailed={onFormFinishFailed}
         scrollToFirstError
-        {...formLayout}
+        layout="vertical"
       >
         <Form.Item
           name="email"

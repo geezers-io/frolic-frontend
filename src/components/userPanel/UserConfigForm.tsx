@@ -7,7 +7,6 @@ import { UpdateMeRequest, UserDetail } from 'api/@types/user';
 import { UserService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
-import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 import { phoneNumberRegex, realnameRegex, usernameRegex } from 'utils/regex';
 
@@ -52,7 +51,7 @@ const UserConfigForm: React.FC = () => {
             username: me?.userInfo.username,
             realname: me?.userInfo.realname,
           }}
-          {...formLayout}
+          layout="vertical"
         >
           <Form.Item
             name="email"

@@ -10,7 +10,6 @@ import { LoginRequest } from 'api/@types/auth';
 import { AuthService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
-import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 import { token } from 'utils/token';
 
@@ -59,7 +58,7 @@ const SignInForm: React.FC = () => {
         validateTrigger={formValidateTrigger}
         onFinishFailed={onFormFinishFailed}
         scrollToFirstError
-        {...formLayout}
+        layout="vertical"
       >
         <Form.Item name="email" rules={[requiredRule]} hasFeedback={hasFeedback}>
           <Input prefix={<UserOutlined />} placeholder="이메일" allowClear />

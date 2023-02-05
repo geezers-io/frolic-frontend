@@ -5,7 +5,6 @@ import { CountdownProps } from 'antd/es/statistic/Countdown';
 
 import { FindEmailFirstStepRequest, FindEmailSecondStepRequest } from 'api/@types/auth';
 import { AuthService } from 'api/services';
-import { formLayout } from 'utils/formLayout';
 import { requiredRule } from 'utils/formRules';
 
 const { Countdown } = Statistic;
@@ -71,7 +70,7 @@ const FindEmailSecondStep: React.FC<Props> = ({ next, firstStepValues }) => {
     <>
       {contextHolder}
 
-      <Form<FormValues> form={form} onFinish={handleSubmit} {...formLayout}>
+      <Form<FormValues> form={form} onFinish={handleSubmit} layout="vertical">
         <Form.Item name="code" label="인증번호" rules={[requiredRule]} extra={codeExtraMessage}>
           <Input
             placeholder="인증번호를 입력하세요"
