@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { message, Modal } from 'antd';
 import { useRecoilValue } from 'recoil';
-import shortid from 'shortid';
 
 import { UserSimple } from 'api/@types/user';
 import { UserService } from 'api/services';
@@ -40,7 +39,7 @@ const FollowersModal: React.FC<Props> = ({ isShow, handleClose }) => {
 
       <Modal title="팔로우 현황" open={isShow} onOk={handleClose} onCancel={handleClose}>
         {followers.map(({ username, realname }) => (
-          <Follower username={username} realname={realname} key={shortid()} />
+          <Follower username={username} realname={realname} key={'follower-' + username} />
         ))}
       </Modal>
     </>

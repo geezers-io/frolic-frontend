@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Skeleton } from 'antd';
-import shortid from 'shortid';
 
 const PostCardSkeleton: React.FC = () => {
   return (
@@ -19,8 +18,8 @@ const PostCardSkeleton: React.FC = () => {
 const PostCardsSkeleton: React.FC = () => {
   return (
     <>
-      {[...Array(3)].map(() => (
-        <PostCardSkeleton key={shortid.generate()} />
+      {[...Array(3)].map((_, i) => (
+        <PostCardSkeleton key={'postCardSkeleton-' + i} />
       ))}
     </>
   );

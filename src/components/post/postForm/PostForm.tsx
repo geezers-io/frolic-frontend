@@ -4,7 +4,6 @@ import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Form, message, Modal, Upload, UploadFile } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import shortid from 'shortid';
 
 import { Post } from 'api/@types/posts';
 import { PostsService } from 'api/services';
@@ -109,7 +108,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
           initialFiles.push({
             name: url,
             url,
-            uid: shortid.generate(),
+            uid: url,
             originFileObj: file as RcFile,
           });
         }
@@ -194,7 +193,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
                     beforeUpload={(file) => {
                       const newFile = {
                         name: file.name,
-                        uid: shortid.generate(),
+                        uid: file.uid,
                         originFileObj: file,
                       };
                       setFileList([...fileList, newFile]);

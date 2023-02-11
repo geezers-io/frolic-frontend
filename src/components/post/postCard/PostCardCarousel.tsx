@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
 import { Image } from 'antd';
-import shortid from 'shortid';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -29,7 +28,7 @@ const PostCardCarousel: React.FC<Props> = ({ imageUrls }) => {
         modules={[Pagination]}
       >
         {imageUrls.map((url, index) => (
-          <SwiperSlide key={shortid.generate()} className="bg-black/90">
+          <SwiperSlide key={'imageSlide-' + url} className="bg-black/90">
             <Image
               src={url}
               alt=""
@@ -59,7 +58,7 @@ const PostCardCarousel: React.FC<Props> = ({ imageUrls }) => {
           }}
         >
           {imageUrls.map((url) => (
-            <Image key={shortid.generate()} src={url} alt="" width="100%" height="auto" />
+            <Image key={'imagePreview-' + url} src={url} alt="" width="100%" height="auto" />
           ))}
         </Image.PreviewGroup>
       </div>

@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { message } from 'antd';
-import shortid from 'shortid';
 
 import { Post } from 'api/@types/posts';
 import { PostsService } from 'api/services';
@@ -46,7 +45,7 @@ const SearchPage: NextPage<Props> = ({ hashtags }) => {
           <section className="flex flex-col items-center py-8">
             <div className="flex gap-x-1">
               {hashtags.map((tag) => (
-                <h3 key={shortid.generate()} className="text-sky-500 text-base md:text-lg">
+                <h3 key={'hashtagResult-' + tag} className="text-sky-500 text-base md:text-lg">
                   {tag}
                 </h3>
               ))}
@@ -58,7 +57,7 @@ const SearchPage: NextPage<Props> = ({ hashtags }) => {
           <section>
             <article className="flex flex-col gap-y-7">
               {posts.map((post) => (
-                <PostCard key={shortid.generate()} post={post} />
+                <PostCard key={'postCard-' + post.id} post={post} />
               ))}
             </article>
           </section>
