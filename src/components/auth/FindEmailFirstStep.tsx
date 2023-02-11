@@ -38,6 +38,7 @@ const FindEmailFirstStep: React.FC<Props> = ({ next }) => {
         validateTrigger={formValidateTrigger}
         onFinish={handleSubmit}
         onFinishFailed={onFormFinishFailed}
+        layout="vertical"
       >
         <Form.Item
           name="phoneNumber"

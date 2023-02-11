@@ -58,6 +58,7 @@ const SignInForm: React.FC = () => {
         validateTrigger={formValidateTrigger}
         onFinishFailed={onFormFinishFailed}
         scrollToFirstError
+        layout="vertical"
       >
         <Form.Item name="email" rules={[requiredRule]} hasFeedback={hasFeedback}>
           <Input prefix={<UserOutlined />} placeholder="이메일" allowClear />

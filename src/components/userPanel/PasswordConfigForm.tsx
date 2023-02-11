@@ -10,11 +10,6 @@ import { passwordRegex } from 'utils/regex';
 
 interface FormValues extends UpdateMyPasswordRequest {}
 
-const layout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-};
-
 const PasswordConfigForm: React.FC = () => {
   const { formValidateTrigger, onFormFinishFailed, hasFeedback } = useFormValidateTrigger();
   const [messageApi, contextHolder] = message.useMessage();
@@ -46,7 +41,7 @@ const PasswordConfigForm: React.FC = () => {
         validateTrigger={formValidateTrigger}
         onFinishFailed={onFormFinishFailed}
         scrollToFirstError
-        {...layout}
+        layout="vertical"
       >
         <Form.Item name="prevPassword" label="기존 비밀번호" rules={[requiredRule]} hasFeedback={hasFeedback}>
           <Input.Password />

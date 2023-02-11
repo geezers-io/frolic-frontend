@@ -16,11 +16,6 @@ interface FormValues extends CreateUserRequest {
   passwordConfirm?: string;
 }
 
-const layout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-};
-
 const SignUpForm: React.FC = () => {
   const router = useRouter();
   const [form] = Form.useForm();
@@ -64,7 +59,7 @@ const SignUpForm: React.FC = () => {
         onFinish={createUser}
         onFinishFailed={onFormFinishFailed}
         scrollToFirstError
-        {...layout}
+        layout="vertical"
       >
         <Form.Item
           name="email"

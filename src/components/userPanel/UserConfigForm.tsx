@@ -12,11 +12,6 @@ import { phoneNumberRegex, realnameRegex, usernameRegex } from 'utils/regex';
 
 interface FormValues extends UpdateMeRequest {}
 
-const layout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-};
-
 const UserConfigForm: React.FC = () => {
   const [me, setMe] = useRecoilState(atomStore.meAtom);
   const { formValidateTrigger, onFormFinishFailed, hasFeedback } = useFormValidateTrigger();
@@ -56,7 +51,7 @@ const UserConfigForm: React.FC = () => {
             username: me?.userInfo.username,
             realname: me?.userInfo.realname,
           }}
-          {...layout}
+          layout="vertical"
         >
           <Form.Item
             name="email"

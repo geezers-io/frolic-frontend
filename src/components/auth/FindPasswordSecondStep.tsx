@@ -70,7 +70,7 @@ const FindPasswordSecondStep: React.FC<Props> = ({ next, firstStepValues }) => {
     <>
       {contextHolder}
 
-      <Form<FormValues> form={form} onFinish={handleSubmit}>
+      <Form<FormValues> form={form} onFinish={handleSubmit} layout="vertical">
         <Form.Item name="code" label="인증번호" rules={[requiredRule]} extra={codeExtraMessage}>
           <Input
             placeholder="인증번호를 입력하세요"

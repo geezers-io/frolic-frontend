@@ -13,11 +13,6 @@ import { passwordRegex } from 'utils/regex';
 
 interface FormValues extends DeleteMeRequest {}
 
-const layout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-};
-
 const UserDeleteForm: React.FC = () => {
   const router = useRouter();
   const me = useRecoilValue(atomStore.meAtom);
@@ -49,7 +44,7 @@ const UserDeleteForm: React.FC = () => {
         validateTrigger={formValidateTrigger}
         onFinishFailed={onFormFinishFailed}
         form={form}
-        {...layout}
+        layout="vertical"
       >
         <Form.Item
           label={
