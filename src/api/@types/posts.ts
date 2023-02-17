@@ -1,5 +1,6 @@
 import { Empty } from 'api/@types/@shared';
 import { Comment } from 'api/@types/comments';
+import { FileInfo } from 'api/@types/file';
 import { User } from 'api/@types/user';
 
 export interface Post {
@@ -9,7 +10,7 @@ export interface Post {
   comments: Comment[];
   hashtags: string[];
   likeCount: number;
-  prevFileDownloadUrls: string[];
+  files: FileInfo[];
   createdDate: string;
   updatedDate: string;
   likeUp: boolean;
@@ -17,16 +18,15 @@ export interface Post {
 
 export interface CreatePostRequest {
   textContent: string;
-  hashtags?: string[];
-  files?: File[];
+  // hashtags: string[]; //TODO: hashtags 추가
+  imageIds: number[];
 }
 
 export interface UpdatePostRequest {
   postId: number;
   textContent: string;
-  hashtags?: string[];
-  files?: File[];
-  prevFileDownloadUrls?: string[];
+  // hashtags: string[]; //TODO: hashtags 추가
+  imageIds: number[];
 }
 
 export interface DeletePostRequest {

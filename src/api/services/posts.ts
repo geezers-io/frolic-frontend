@@ -7,51 +7,16 @@ import { api } from 'api/client';
  * @suppress 파일 업로드, 파일 get 관련 기능은 아직 지원하지 않습니다. 2022-11-15
  */
 export const PostsService: PostsServiceClient = {
-  async createPost({ textContent, hashtags = [], files = [] }) {
-    const formData = new FormData();
-
-    formData.append(
-      'createPostRequest',
-      JSON.stringify({
-        textContent,
-        hashtags,
-      })
-    );
-    for (const file of files) {
-      formData.append('files', file);
-    }
-
-    return await api.post(`/posts`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  async createPost(body) {
+    return await api.post(`/v2/posts`, body);
   },
 
-  async updatePost({ postId, textContent, hashtags = [], prevFileDownloadUrls = [], files = [] }) {
-    const formData = new FormData();
-
-    formData.append(
-      'updateRequest',
-      JSON.stringify({
-        textContent,
-        hashtags,
-        prevFileDownloadUrls,
-      })
-    );
-    for (const file of files) {
-      formData.append('files', file);
-    }
-
-    return await api.put(`/posts/${postId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  async updatePost({ postId, ...body }) {
+    return await api.put(`/v2/posts/${postId}`, body);
   },
 
   async deletePost(body) {
-    return await api.delete(`/posts/${body.postId}`);
+    return await api.delete(`/v2/posts/${body.postId}`);
   },
 
   async getPosts(body) {
