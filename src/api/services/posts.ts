@@ -3,9 +3,6 @@ import qs from 'qs';
 import { PostsServiceClient } from 'api/@types/posts';
 import { api } from 'api/client';
 
-/**
- * @suppress 파일 업로드, 파일 get 관련 기능은 아직 지원하지 않습니다. 2022-11-15
- */
 export const PostsService: PostsServiceClient = {
   async createPost(body) {
     return await api.post(`/v2/posts`, body);
