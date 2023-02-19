@@ -18,22 +18,26 @@ body {
   @apply flex justify-center items-center;
 }
 
-textarea {
-  @apply text-lg;
+textarea.textarea-font-base {
+  @apply text-sm;
 }
-
-textarea::placeholder {
-  @apply text-lg text-gray-500;
+textarea.textarea-font-base::placeholder {
+  @apply text-sm text-gray-500;
 }
-
-.ant-input-textarea textarea {
-  @apply text-lg;
+textarea.textarea-font-xl {
+  @apply text-xl;
 }
-
-.ant-input-textarea textarea::placeholder {
-  @apply text-lg text-gray-500;
+textarea.textarea-font-xl::placeholder {
+  @apply text-xl text-gray-500;
 }
 
 .ant-typography .ant-typography-copy {
   @apply text-pink-600;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  width: 0;
 }

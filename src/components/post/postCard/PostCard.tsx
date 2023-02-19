@@ -7,8 +7,8 @@ import { useRecoilValue } from 'recoil';
 
 import { Post } from 'api/@types/posts';
 import Hashtag from 'components/hashtag/Hashtag';
+import PostCardFooter from 'components/post/postCard/PostCardFooter';
 import PostDropdown from 'components/post/postCard/PostDropdown';
-import PostCardFooter from 'components/post/postCard/postFooter/PostCardFooter';
 import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
 import { days } from 'utils/days';

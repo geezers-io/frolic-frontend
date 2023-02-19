@@ -12,7 +12,7 @@ interface Props {
 }
 
 const sizeClassNamesDict = {
-  s: 'text-lg w-8 h-8',
+  s: 'text-sm w-6 h-6',
   m: 'text-2xl w-10 h-10',
   l: 'text-5xl w-20 h-20',
 };
@@ -23,8 +23,8 @@ const UserIcon: React.FC<Props> = ({ username, realname, size = 's', style }) =>
   const firstCharOfRealname = realname?.match(/[a-zA-Z가-힣ㄱ-ㅎ]/)?.[0] ?? '';
 
   return (
-    <div
-      className={`rounded-full flex justify-center items-center ${sizeClassNames}`}
+    <span
+      className={`rounded-full inline-flex justify-center items-center ${sizeClassNames}`}
       style={{
         ...style,
         color: '#FFFFFF',
@@ -32,7 +32,7 @@ const UserIcon: React.FC<Props> = ({ username, realname, size = 's', style }) =>
       }}
     >
       {!realname ? <UserOutlined /> : <span>{firstCharOfRealname.toUpperCase()}</span>}
-    </div>
+    </span>
   );
 };
 

@@ -1,5 +1,5 @@
 import { Empty } from 'api/@types/@shared';
-import { Comment } from 'api/@types/comments';
+import { CommentInfo } from 'api/@types/comments';
 import { FileInfo } from 'api/@types/file';
 import { User } from 'api/@types/user';
 
@@ -7,7 +7,7 @@ export interface Post {
   id: number;
   userInfo: User;
   textContent: string;
-  comments: Comment[];
+  comments: CommentInfo[];
   hashtags: string[];
   likeCount: number;
   files: FileInfo[];
