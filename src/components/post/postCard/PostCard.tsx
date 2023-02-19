@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { MoreOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
@@ -19,22 +19,15 @@ interface Props {
 }
 
 const PostCard: React.FC<Props> = ({ post }) => {
-  const {
-    userInfo,
-    textContent,
-    likeCount,
-    hashtags,
-    comments,
-    id,
-    createdDate,
-    updatedDate,
-    prevFileDownloadUrls,
-    likeUp,
-  } = post;
+  const { userInfo, textContent, hashtags, createdDate, updatedDate, files } = post;
 
   const router = useRouter();
   const [postTimeInfo, setPostTimeInfo] = useState('');
   const me = useRecoilValue(atomStore.meAtom);
+
+  const imageUrls = useMemo(() => {
+    return files.map((image) => image.downloadUrl);
+  }, [files]);
 
   const handleUserProfileClicked = useCallback(() => {
     router.push(`/profile/${userInfo.username}`);
@@ -96,9 +89,9 @@ const PostCard: React.FC<Props> = ({ post }) => {
           </section>
         </section>
 
-        {prevFileDownloadUrls.length !== 0 && (
+        {imageUrls.length !== 0 && (
           <section className="mt-3">
-            <PostCardCarousel imageUrls={prevFileDownloadUrls} />
+            <PostCardCarousel imageUrls={imageUrls} />
           </section>
         )}
 

@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Form, message, Modal, Upload, UploadFile } from 'antd';
+import { Button, Form, message, Modal, Upload, UploadFile, UploadProps } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { FileInfo } from 'api/@types/file';
 import { Post } from 'api/@types/posts';
-import { PostsService } from 'api/services';
+import { FileService, PostsService } from 'api/services';
 import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
-import { isNonNullable } from 'utils/isNonNullable';
 
 interface Props {
   visible: boolean;
@@ -21,6 +21,11 @@ interface FormValues {
   textContent: string;
 }
 
+interface ImageData {
+  info: FileInfo;
+  data: UploadFile;
+}
+
 const TEXT_CONTENT_MAX_LENGTH = 140;
 
 const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
@@ -29,8 +34,12 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
   const [text, setText] = useState('');
   const [textareaFocus, setTextareaFocus] = useState(false);
   const setPosts = useSetRecoilState(atomStore.mainPagePostsAtom);
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [images, setImages] = useState<ImageData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
+
+  const imageDataList = React.useMemo(() => {
+    return images.map((image) => image.data);
+  }, [images]);
 
   const toggleTextareaFocus = useCallback(() => {
     setTextareaFocus((prev) => !prev);
@@ -50,18 +59,50 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
     onCancel();
   }, [onCancel, form]);
 
+  const handleRemove: Required<UploadProps>['onRemove'] = useCallback(
+    (file) => {
+      const index = imageDataList.indexOf(file);
+      const newFileList = images.slice();
+      newFileList.splice(index, 1);
+      setImages(newFileList);
+    },
+    [imageDataList, images]
+  );
+
+  const handleBeforeUpload: Required<UploadProps>['beforeUpload'] = useCallback(
+    async (file) => {
+      try {
+        const uploaded = await FileService.uploadFile({ file });
+        const newImage: ImageData = {
+          info: uploaded,
+          data: {
+            name: file.name,
+            uid: file.uid,
+            url: uploaded.downloadUrl,
+            originFileObj: file,
+          },
+        };
+        setImages([...images, newImage]);
+        return false;
+      } catch (err) {
+        messageApi.error(err.message);
+      }
+    },
+    [images, messageApi]
+  );
+
   const handleSubmit = useCallback(
     async ({ textContent }: FormValues) => {
       try {
         // setLoading(true);
 
-        const files = fileList.map((file) => file.originFileObj).filter(isNonNullable);
+        const imageIds = images.map((image) => image.info.id);
 
         if (initialValues) {
           const edited = await PostsService.updatePost({
             postId: initialValues.id,
             textContent,
-            files,
+            imageIds,
           });
           setPosts((prevPosts) => {
             return prevPosts.map((post) => (post.id === edited.id ? edited : post));
@@ -69,13 +110,13 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
         } else {
           const added = await PostsService.createPost({
             textContent,
-            files,
+            imageIds,
           });
           setPosts((prevPosts) => {
             return [added, ...prevPosts];
           });
         }
-        setFileList([]);
+        setImages([]);
         handleCloseModal();
       } catch (e) {
         messageApi.error(e.message);
@@ -83,7 +124,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
         // setLoading(false);
       }
     },
-    [fileList, handleCloseModal, initialValues, messageApi, setPosts]
+    [images, handleCloseModal, initialValues, messageApi, setPosts]
   );
 
   useEffect(() => {
@@ -95,30 +136,35 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
     });
 
     (async () => {
-      const initialFiles: UploadFile[] = [];
+      const initialImages: ImageData[] = [];
 
       try {
-        for (const url of initialValues.prevFileDownloadUrls) {
-          const res = await fetch(new Request(url));
+        for (const fileInfo of initialValues.files) {
+          const res = await fetch(new Request(fileInfo.downloadUrl));
           const blob = await res.blob();
-          const file = new File([blob], url, {
+          const file = new File([blob], fileInfo.downloadUrl, {
             type: 'image/jpeg',
           });
 
-          initialFiles.push({
-            name: url,
-            url,
-            uid: url,
-            originFileObj: file as RcFile,
-          });
+          const newImage: ImageData = {
+            info: fileInfo,
+            data: {
+              name: fileInfo.filename,
+              url: fileInfo.downloadUrl,
+              uid: fileInfo.downloadUrl,
+              originFileObj: file as RcFile,
+            },
+          };
+
+          initialImages.push(newImage);
         }
+
+        setImages(initialImages);
       } catch (e) {
         console.error('이전 파일 불러오던 중 에러발생', e);
       }
-
-      setFileList(initialFiles);
     })();
-  }, []);
+  }, [initialValues]);
 
   if (!me) return null;
   return (
@@ -182,25 +228,12 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
                 <section className="flex items-start">
                   <Upload
                     multiple
-                    fileList={fileList}
+                    fileList={imageDataList}
                     listType="picture-card"
-                    onRemove={(file) => {
-                      const index = fileList.indexOf(file);
-                      const newFileList = fileList.slice();
-                      newFileList.splice(index, 1);
-                      setFileList(newFileList);
-                    }}
-                    beforeUpload={(file) => {
-                      const newFile = {
-                        name: file.name,
-                        uid: file.uid,
-                        originFileObj: file,
-                      };
-                      setFileList([...fileList, newFile]);
-                      return false;
-                    }}
+                    onRemove={handleRemove}
+                    beforeUpload={handleBeforeUpload}
                   >
-                    {fileList.length < 6 && (
+                    {images.length < 6 && (
                       <Button type="text" className="no-padding" icon={<UploadOutlined className="text-base" />} />
                     )}
                   </Upload>
