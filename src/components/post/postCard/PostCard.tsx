@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { MoreOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
@@ -11,6 +11,7 @@ import PostDropdown from 'components/post/postCard/PostDropdown';
 import PostCardFooter from 'components/post/postCard/postFooter/PostCardFooter';
 import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
+import { days } from 'utils/days';
 
 import PostCardCarousel from './PostCardCarousel';
 
@@ -22,8 +23,13 @@ const PostCard: React.FC<Props> = ({ post }) => {
   const { userInfo, textContent, hashtags, createdDate, updatedDate, files } = post;
 
   const router = useRouter();
-  const [postTimeInfo, setPostTimeInfo] = useState('');
   const me = useRecoilValue(atomStore.meAtom);
+
+  const createdFrom = useMemo(() => {
+    const suffix = createdDate === updatedDate ? '' : ' (수정됨)';
+
+    return days(createdDate).fromNow() + suffix;
+  }, [createdDate, updatedDate]);
 
   const imageUrls = useMemo(() => {
     return files.map((image) => image.downloadUrl);
@@ -32,11 +38,6 @@ const PostCard: React.FC<Props> = ({ post }) => {
   const handleUserProfileClicked = useCallback(() => {
     router.push(`/profile/${userInfo.username}`);
   }, [router, userInfo.username]);
-
-  useEffect(() => {
-    const postedDate = new Date(createdDate).toLocaleString();
-    setPostTimeInfo(createdDate.includes(updatedDate) ? postedDate : postedDate + ' (수정됨)');
-  }, [createdDate, updatedDate]);
 
   return (
     <article
@@ -79,7 +80,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
             {userInfo.id === me?.userInfo.id && <PostDropdown post={post} />}
           </section>
           <section className="leading-none">
-            <span className="text-xs text-gray-400">{postTimeInfo}</span>
+            <span className="text-xs text-gray-400">{createdFrom}</span>
           </section>
           <section className="mt-2">
             <span>{textContent}</span>
