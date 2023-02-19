@@ -6,6 +6,8 @@ const ASCII = {
 };
 
 export function isAlphabet(char: string) {
+  if (char.length !== 1) return false;
+
   const ascii = char.charCodeAt(0);
   const isUpperCase = ascii >= ASCII.A && ascii <= ASCII.Z;
   const isLowerCase = ascii >= ASCII.a && ascii <= ASCII.z;
