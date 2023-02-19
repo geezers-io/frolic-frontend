@@ -11,6 +11,7 @@ import { meAtom } from 'stores/atom/user';
 
 interface Props {
   postId: number;
+  postOwnerId: number;
   setCommentsLength: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -77,7 +78,7 @@ const mockComments: CommentInfo[] = [
   },
 ];
 
-const PostComments: React.FC<Props> = ({ postId, setCommentsLength }) => {
+const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength }) => {
   const me = useRecoilValue(meAtom);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -117,7 +118,7 @@ const PostComments: React.FC<Props> = ({ postId, setCommentsLength }) => {
       const added = await CommentsService.createComment({
         postId,
         textContent: trimmedCommentInputValue,
-        postOwnerId: me.userInfo.id,
+        postOwnerId,
       });
 
       setCommentsLength((prev) => prev + 1);
@@ -175,7 +176,13 @@ const PostComments: React.FC<Props> = ({ postId, setCommentsLength }) => {
       {!!mockComments.length && (
         <div className="flex flex-col gap-4 max-h-[10.5rem] overflow-y-auto my-4 border-gray-400 scrollbar-none">
           {mockComments.map((comment) => (
-            <PostComment key={'comment-' + comment.id} comment={comment} postId={postId} setComments={setComments} />
+            <PostComment
+              key={'comment-' + comment.id}
+              comment={comment}
+              postId={postId}
+              postOwnerId={postOwnerId}
+              setComments={setComments}
+            />
           ))}
         </div>
       )}

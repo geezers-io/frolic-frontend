@@ -7,12 +7,14 @@ import { useRecoilValue } from 'recoil';
 
 import { CommentInfo } from 'api/@types/comments';
 import { CommentsService } from 'api/services';
+import PostCommentEditModal from 'components/post/postCard/PostCommentEditModal';
 import UserIcon from 'components/userPanel/UserIcon';
-import { alertNotImpl } from 'hooks/alertNotImpl';
+import { useModal } from 'hooks/useModal';
 import { meAtom } from 'stores/atom/user';
 
 interface Props {
   postId: number;
+  postOwnerId: number;
   comment: CommentInfo;
   setComments: React.Dispatch<React.SetStateAction<CommentInfo[]>>;
 }
@@ -28,37 +30,58 @@ const menuItems: ItemType[] = [
   { label: '댓글 삭제', key: MenuKey.DeleteComment },
 ];
 
-const PostComment: React.FC<Props> = ({ postId, comment, setComments }) => {
+const PostComment: React.FC<Props> = ({ postId, postOwnerId, comment, setComments }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const me = useRecoilValue(meAtom);
+  const { isModalOpen: isEditModalOpen, openModal: openEditModal, closeModal: closeEditModal } = useModal();
 
-  const handleDropdownClick = useCallback<Required<MenuProps>['onClick']>(
-    async ({ key }) => {
+  const handleEditModalOk = useCallback(
+    async (edited: CommentInfo) => {
       try {
-        switch (Number(key)) {
-          case MenuKey.EditComment: {
-            // await CommentsService.updateComment({ ... });
-            // messageApi.success('댓글이 수정되었습니다.');
-            alertNotImpl();
-            return;
-          }
-          case MenuKey.DeleteComment: {
-            await CommentsService.deleteComment({ commentId: comment.id });
-            setComments((prev) => {
-              return prev.filter((comment) => comment.id !== comment.id);
-            });
-            messageApi.success('댓글이 삭제되었습니다.');
-            return;
-          }
-          default: {
-            return;
-          }
-        }
+        const updated = await CommentsService.updateComment({
+          postId: edited.postId,
+          postOwnerId,
+          commentId: edited.id,
+          textContent: edited.textContent,
+        });
+
+        setComments((prev) =>
+          prev.map((comment) => {
+            return comment.id === updated.id ? updated : comment;
+          })
+        );
+        messageApi.success('댓글이 수정되었습니다.');
       } catch (e) {
         messageApi.error(e.message);
       }
     },
-    [comment.id, messageApi, setComments]
+    [messageApi, postOwnerId, setComments]
+  );
+
+  const handleDropdownClick = useCallback<Required<MenuProps>['onClick']>(
+    async ({ key }) => {
+      switch (Number(key)) {
+        case MenuKey.EditComment: {
+          openEditModal();
+          return;
+        }
+        case MenuKey.DeleteComment: {
+          try {
+            await CommentsService.deleteComment({ commentId: comment.id });
+            setComments((prev) =>
+              prev.filter((comment) => {
+                return comment.id !== comment.id;
+              })
+            );
+            messageApi.success('댓글이 삭제되었습니다.');
+          } catch (e) {
+            messageApi.error(e.message);
+          }
+          return;
+        }
+      }
+    },
+    [comment.id, messageApi, openEditModal, setComments]
   );
 
   return (
@@ -81,6 +104,13 @@ const PostComment: React.FC<Props> = ({ postId, comment, setComments }) => {
           </Dropdown>
         )}
       </article>
+
+      <PostCommentEditModal
+        isOpen={isEditModalOpen}
+        onOk={handleEditModalOk}
+        onCancel={closeEditModal}
+        initialValues={comment}
+      />
     </>
   );
 };
