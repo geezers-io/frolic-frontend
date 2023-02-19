@@ -53,16 +53,7 @@ const UserConfigDropdown: React.FC<Props> = ({ style }) => {
 
   return (
     <Dropdown menu={{ items: menuItems, onClick: onProfileSettingClicked }}>
-      <Button
-        type="text"
-        icon={<SettingOutlined className="text-2xl text-gray-600" />}
-        size="large"
-        style={{
-          width: 30,
-          height: 30,
-          ...style,
-        }}
-      />
+      <Button type="text" icon={<SettingOutlined className="text-2xl text-gray-600" />} size="large" style={style} />
     </Dropdown>
   );
 };

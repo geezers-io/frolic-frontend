@@ -36,7 +36,13 @@ const UserPanel: React.FC<Props> = ({ user: { userInfo, allFollowingCount, allFo
         <article className="relative px-5">
           <section className="flex justify-between items-end">
             <UserIcon size="l" username={userInfo.username} realname={userInfo.realname} />
-            <UserConfigDropdown />
+            <UserConfigDropdown
+              style={{
+                position: 'relative',
+                top: '10px',
+                right: '-10px',
+              }}
+            />
           </section>
           <section className="flex flex-col gap-2 mt-2">
             <section>
