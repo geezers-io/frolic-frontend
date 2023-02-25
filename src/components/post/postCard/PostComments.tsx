@@ -99,6 +99,7 @@ const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength 
           value={commentInputValue}
           onChange={handleChangeCommentInput}
           onKeyDown={handleKeyDownCommentInput}
+          maxLength={140}
         />
         <Button
           type="link"

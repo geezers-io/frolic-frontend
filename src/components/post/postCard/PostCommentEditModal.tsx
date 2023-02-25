@@ -37,7 +37,7 @@ const PostCommentEditModal: React.FC<Props> = ({ initialValues, isOpen, onOk, on
     >
       <Form<FormValues> form={form} layout="vertical" onFinish={handleSubmit}>
         <Form.Item>
-          <Input.TextArea defaultValue={initialValues.textContent} rows={6} />
+          <Input.TextArea defaultValue={initialValues.textContent} rows={6} maxLength={140} />
         </Form.Item>
       </Form>
     </Modal>
