@@ -63,7 +63,7 @@ const PostComment: React.FC<Props> = ({ postId, postOwnerId, comment, setComment
       switch (Number(key)) {
         case MenuKey.EditComment: {
           openEditModal();
-          return;
+          break;
         }
         case MenuKey.DeleteComment: {
           try {
@@ -77,7 +77,7 @@ const PostComment: React.FC<Props> = ({ postId, postOwnerId, comment, setComment
           } catch (e) {
             messageApi.error(e.message);
           }
-          return;
+          break;
         }
       }
     },
