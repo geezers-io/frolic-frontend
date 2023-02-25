@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useRecoilState } from 'recoil';
 
-import { Post } from 'api/@types/posts';
 import { PostsService } from 'api/services';
 import EmptyFeed from 'components/empty/EmptyFeed';
 import PostCard from 'components/post/postCard/PostCard';
@@ -13,29 +12,6 @@ import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
 import PostCreateButton from 'components/post/postForm/PostCreateButton';
 import AppLayout from 'layouts/AppLayout';
 import atomStore from 'stores/atom';
-
-const mockPosts: Post[] = [
-  {
-    id: 1,
-    userInfo: {
-      id: 1,
-      email: 'email@gmail.com',
-      username: 'username',
-      realname: 'realname',
-      phoneNumber: 'phoneNumber',
-      createdDate: '2023-02-19T11:51:45.128Z',
-      updatedDate: '2023-02-19T11:51:45.128Z',
-    },
-    textContent: '게시글 1',
-    comments: [{} as any, {} as any, {} as any, {} as any],
-    hashtags: [],
-    likeCount: 2,
-    files: [],
-    createdDate: '2023-02-19T11:51:45.128Z',
-    updatedDate: '2023-02-19T11:51:45.128Z',
-    likeUp: false,
-  },
-];
 
 const MainPage: NextPage = () => {
   const router = useRouter();
@@ -78,7 +54,7 @@ const MainPage: NextPage = () => {
     <AppLayout>
       {contextHolder}
       <PostCreateButton />
-      {mockPosts?.length === 0 ? <EmptyFeed /> : mockPosts?.map((post) => <PostCard key={post.id} post={post} />)}
+      {posts?.length === 0 ? <EmptyFeed /> : posts?.map((post) => <PostCard key={post.id} post={post} />)}
     </AppLayout>
   );
 };

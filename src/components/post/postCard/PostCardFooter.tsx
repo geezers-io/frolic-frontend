@@ -60,7 +60,7 @@ const PostCardFooter: React.FC<Props> = ({ post }) => {
         <section className="grid grid-cols-2">
           <Button type="text" className="border-0 bg-transparent text-gray-600" onClick={handleClickCommentBox}>
             <CommentOutlined className="text-xl" />
-            <span>{post.comments.length}</span>
+            <span>{commentsLength}</span>
           </Button>
           <Button
             type="text"

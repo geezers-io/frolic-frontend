@@ -15,69 +15,6 @@ interface Props {
   setCommentsLength: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const mockComments: CommentInfo[] = [
-  {
-    id: 1,
-    postId: 1,
-    textContent:
-      '댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1',
-    userInfo: {
-      id: 1,
-      email: 'email@gmail.com',
-      username: 'husername',
-      realname: 'hrealname',
-      phoneNumber: 'phoneNumber',
-      createdDate: '2023-02-19T11:51:45.128Z',
-      updatedDate: '2023-02-19T11:51:45.128Z',
-    },
-  },
-  {
-    id: 2,
-    postId: 1,
-    textContent:
-      '댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1',
-    userInfo: {
-      id: 1,
-      email: 'email@gmail.com',
-      username: 'ausername',
-      realname: 'arealname',
-      phoneNumber: 'phoneNumber',
-      createdDate: '2023-02-19T11:51:45.128Z',
-      updatedDate: '2023-02-19T11:51:45.128Z',
-    },
-  },
-  {
-    id: 3,
-    postId: 1,
-    textContent:
-      '댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1',
-    userInfo: {
-      id: 1,
-      email: 'email@gmail.com',
-      username: 'zusername',
-      realname: 'zrealname',
-      phoneNumber: 'phoneNumber',
-      createdDate: '2023-02-19T11:51:45.128Z',
-      updatedDate: '2023-02-19T11:51:45.128Z',
-    },
-  },
-  {
-    id: 4,
-    postId: 1,
-    textContent:
-      '댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1댓글 1',
-    userInfo: {
-      id: 1,
-      email: 'email@gmail.com',
-      username: 'dusername',
-      realname: 'drealname',
-      phoneNumber: 'phoneNumber',
-      createdDate: '2023-02-19T11:51:45.128Z',
-      updatedDate: '2023-02-19T11:51:45.128Z',
-    },
-  },
-];
-
 const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength }) => {
   const me = useRecoilValue(meAtom);
   const [messageApi, contextHolder] = message.useMessage();
@@ -173,9 +110,9 @@ const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength 
         </Button>
       </section>
 
-      {!!mockComments.length && (
+      {!!comments.length && (
         <div className="flex flex-col gap-4 max-h-[10.5rem] overflow-y-auto my-4 border-gray-400 scrollbar-none">
-          {mockComments.map((comment) => (
+          {comments.map((comment) => (
             <PostComment
               key={'comment-' + comment.id}
               comment={comment}
