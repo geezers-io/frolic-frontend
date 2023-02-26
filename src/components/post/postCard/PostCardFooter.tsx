@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { CommentOutlined, LikeOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 
-import { Comment } from 'api/@types/comments';
 import { Post } from 'api/@types/posts';
 import { PostsService } from 'api/services';
-import PostCardCommentBox from 'components/post/postCard/postComment/PostCardCommentBox';
-import PostCardCommentList from 'components/post/postCard/postComment/PostCardCommentList';
+import PostComments from 'components/post/postCard/PostComments';
 
 interface Props {
   post: Post;
@@ -23,7 +21,7 @@ const PostCardFooter: React.FC<Props> = ({ post }) => {
     likeCount: post.likeCount,
     color: post.likeUp ? LIKE_COLOR : NOT_LIKE_COLOR,
   });
-  const [postComments, setPostComments] = useState<Comment[]>([]);
+  const [commentsLength, setCommentsLength] = useState<number>(post.comments.length);
   const [messageApi, contextHolder] = message.useMessage();
 
   const handleClickCommentBox = useCallback(() => {
@@ -54,30 +52,30 @@ const PostCardFooter: React.FC<Props> = ({ post }) => {
     }
   }, [likedButtonState.isLiked, messageApi, post.id]);
 
-  useEffect(() => {
-    setPostComments(post.comments);
-  }, [post.comments]);
-
   return (
     <>
       {contextHolder}
-      <footer className="grid grid-cols-2 mt-5">
-        <Button type="text" className="border-0 bg-transparent text-gray-600" onClick={handleClickCommentBox}>
-          <CommentOutlined className="text-xl" />
-          <span>{post.comments.length}</span>
-        </Button>
-        <Button
-          type="text"
-          className={`border-0 bg-transparent ${likedButtonState.color}`}
-          onClick={handleClickLikeBox}
-        >
-          <LikeOutlined className="text-xl" />
-          <span>{likedButtonState.likeCount}</span>
-        </Button>
-      </footer>
 
-      <PostCardCommentBox postId={post.id} setComments={setPostComments} open={isOpenCommentBox} />
-      <PostCardCommentList postId={post.id} setComments={setPostComments} comments={postComments} />
+      <footer className="mt-5">
+        <section className="grid grid-cols-2">
+          <Button type="text" className="border-0 bg-transparent text-gray-600" onClick={handleClickCommentBox}>
+            <CommentOutlined className="text-xl" />
+            <span>{commentsLength}</span>
+          </Button>
+          <Button
+            type="text"
+            className={`border-0 bg-transparent ${likedButtonState.color}`}
+            onClick={handleClickLikeBox}
+          >
+            <LikeOutlined className="text-xl" />
+            <span>{likedButtonState.likeCount}</span>
+          </Button>
+        </section>
+
+        {isOpenCommentBox && (
+          <PostComments postId={post.id} postOwnerId={post.userInfo.id} setCommentsLength={setCommentsLength} />
+        )}
+      </footer>
     </>
   );
 };

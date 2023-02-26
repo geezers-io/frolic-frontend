@@ -57,8 +57,8 @@ const MeProfilePage: NextPage = () => {
       <EmptySpace />
 
       {myPosts === undefined && <PostCardsSkeleton />}
-      {myPosts?.length === 0 && <EmptyFeed />}
-      {myPosts?.length && myPosts.map((post) => <PostCard key={post.id} post={post} />)}
+      {!myPosts?.length && <EmptyFeed />}
+      {!!myPosts?.length && myPosts.map((post) => <PostCard key={post.id} post={post} />)}
     </AppLayout>
   );
 };

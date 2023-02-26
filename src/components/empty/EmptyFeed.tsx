@@ -7,7 +7,7 @@ interface Props {
 }
 
 const EmptyFeed: React.FC<Props> = ({ content = '아직 피드가 없습니다.' }) => (
-  <section className="h-full flex flex-col justify-center">
+  <section className="my-10 flex-1 flex flex-col justify-center">
     <Empty
       imageStyle={{
         height: 80,

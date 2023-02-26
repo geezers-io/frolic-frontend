@@ -214,7 +214,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
                   onFocus={toggleTextareaFocus}
                   onBlur={toggleTextareaFocus}
                   placeholder="무슨 일이 일어나고 있나요?"
-                  className="w-full h-40 placeholder-gray-500 text-xl border-none outline-none"
+                  className="w-full h-40 placeholder-gray-500 textarea-font-xl border-none outline-none"
                   maxLength={TEXT_CONTENT_MAX_LENGTH}
                 />
               </Form.Item>

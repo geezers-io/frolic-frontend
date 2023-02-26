@@ -1,7 +1,7 @@
 import { Empty } from 'api/@types/@shared';
 import { User } from 'api/@types/user';
 
-export interface Comment {
+export interface CommentInfo {
   id: number;
   postId: number;
   // replyUserId: number;
@@ -44,17 +44,17 @@ export interface CommentsServiceClient {
   /**
    * 댓글을 작성합니다.
    */
-  createComment(request: CreateCommentRequest): Promise<Comment>;
+  createComment(request: CreateCommentRequest): Promise<CommentInfo>;
 
   /**
    * 댓글을 수정합니다.
    */
-  updateComment(request: UpdateCommentRequest): Promise<Comment>;
+  updateComment(request: UpdateCommentRequest): Promise<CommentInfo>;
 
   /**
    * 댓글 상세 정보를 조회합니다.
    */
-  getCommentDetail(request: GetCommentDetailRequest): Promise<Comment>;
+  getCommentDetail(request: GetCommentDetailRequest): Promise<CommentInfo>;
 
   /**
    * 댓글을 삭제합니다.
@@ -64,10 +64,10 @@ export interface CommentsServiceClient {
   /**
    * 특정 게시글의 모든 댓글을 조회합니다.
    */
-  getCommentsByPostId(request: GetCommentsByPostIdRequest): Promise<Comment[]>;
+  getCommentsByPostId(request: GetCommentsByPostIdRequest): Promise<CommentInfo[]>;
 
   /**
    * 사용자의 모든 댓글을 조회합니다.
    */
-  getCommentsByUsername(request: GetCommentsByUsernameIdRequest): Promise<Comment[]>;
+  getCommentsByUsername(request: GetCommentsByUsernameIdRequest): Promise<CommentInfo[]>;
 }

@@ -16,6 +16,7 @@ import atomStore from 'stores/atom';
 const MainPage: NextPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useRecoilState(atomStore.mainPagePostsAtom);
+
   const [initialLoaded, setInitialLoaded] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
