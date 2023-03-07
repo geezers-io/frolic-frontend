@@ -8,9 +8,9 @@ export interface Post {
   userInfo: User;
   textContent: string;
   comments: CommentInfo[];
-  hashtags: string[];
+  hashtags: string[] | null;
   likeCount: number;
-  files: FileInfo[];
+  files: FileInfo[] | null;
   createdDate: string;
   updatedDate: string;
   likeUp: boolean;
