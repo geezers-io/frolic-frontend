@@ -32,7 +32,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
   }, [createdDate, updatedDate]);
 
   const imageUrls = useMemo(() => {
-    return files.map((image) => image.downloadUrl);
+    return files?.map((image) => image.downloadUrl);
   }, [files]);
 
   const handleUserProfileClicked = useCallback(() => {
@@ -84,13 +84,13 @@ const PostCard: React.FC<Props> = ({ post }) => {
           </section>
           <section className="mt-2">
             <span>{textContent}</span>
-            {hashtags.map((tag) => (
+            {hashtags?.map((tag) => (
               <Hashtag key={'postCardHashtag-' + tag} tag={tag} />
             ))}
           </section>
         </section>
 
-        {imageUrls.length !== 0 && (
+        {imageUrls?.length !== 0 && (
           <section className="mt-3">
             <PostCardCarousel imageUrls={imageUrls} />
           </section>
