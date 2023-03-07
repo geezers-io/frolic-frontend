@@ -90,7 +90,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
           </section>
         </section>
 
-        {imageUrls && imageUrls.length !== 0 && (
+        {imageUrls && (
           <section className="mt-3">
             <PostCardCarousel imageUrls={imageUrls} />
           </section>
