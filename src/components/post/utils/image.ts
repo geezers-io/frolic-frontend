@@ -11,6 +11,4 @@ export const getImageUrlsFromFiles = async (files: FileInfo[]): Promise<string[]
   return blobs.map(blobToUrl);
 };
 
-export async function getImageBlob(fileInfo: FileInfo) {
-  return downloadFile(getFilename(fileInfo));
-}
+export const getImageBlob = (fileInfo: FileInfo) => downloadFile(fileInfo.filename);
