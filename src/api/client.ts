@@ -22,6 +22,8 @@ const _axios = axios.create({
   timeout: 5000,
 });
 
+export const rawAxios = _axios;
+
 _axios.interceptors.request.use(flow([logRequest, setAccessToken]), undefined);
 _axios.interceptors.response.use(logResponse, logError);
 
