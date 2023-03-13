@@ -1,5 +1,4 @@
 import { Empty } from 'api/@types/@shared';
-import { CommentInfo } from 'api/@types/comments';
 import { FileInfo } from 'api/@types/file';
 import { User } from 'api/@types/user';
 
@@ -7,7 +6,7 @@ export interface Post {
   id: number;
   userInfo: User;
   textContent: string;
-  comments: CommentInfo[];
+  commentCount: number;
   hashtags: string[];
   likeCount: number;
   files: FileInfo[];
@@ -38,8 +37,7 @@ export interface GetPostRequest {
 }
 
 export interface GetPostsRequest {
-  page: number;
-  size: number;
+  cursorId: number | null;
 }
 
 export interface GetUserPostsRequest {
