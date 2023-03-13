@@ -13,6 +13,7 @@ import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
 import { days } from 'utils/days';
 
+import { useFetchImageUrls } from '../hooks/useFetchImageUrls';
 import PostCardCarousel from './PostCardCarousel';
 
 interface Props {
@@ -24,16 +25,13 @@ const PostCard: React.FC<Props> = ({ post }) => {
 
   const router = useRouter();
   const me = useRecoilValue(atomStore.meAtom);
+  const imageUrls = useFetchImageUrls(files);
 
   const createdFrom = useMemo(() => {
     const suffix = createdDate === updatedDate ? '' : ' (수정됨)';
 
     return days(createdDate).fromNow() + suffix;
   }, [createdDate, updatedDate]);
-
-  const imageUrls = useMemo(() => {
-    return files.map((image) => image.downloadUrl);
-  }, [files]);
 
   const handleUserProfileClicked = useCallback(() => {
     router.push(`/profile/${userInfo.username}`);

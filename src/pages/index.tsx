@@ -21,10 +21,10 @@ const MainPage: NextPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const getPosts = useCallback(
-    async (page: number, size: number) => {
+    async (cursorId: number | null = null) => {
       try {
         // setLoading(true);
-        const posts = await PostsService.getPosts({ page, size });
+        const posts = await PostsService.getPosts(cursorId);
         setPosts(posts);
         setInitialLoaded(true);
       } catch (err) {
@@ -39,8 +39,8 @@ const MainPage: NextPage = () => {
 
   // TODO: 페이지네이션 구현하기
   useEffect(() => {
-    getPosts(0, 999);
-  }, []);
+    getPosts(null);
+  }, [getPosts]);
 
   if (!initialLoaded) {
     return (

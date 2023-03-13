@@ -10,7 +10,7 @@ import { logError, logResponse } from './interceptors/response';
 import { AuthService } from './services';
 
 const API_URL = {
-  development: 'http://localhost:8888/api',
+  development: 'http://localhost:8088/api',
   test: 'https://galaxyhi4276.co/api',
   production: 'https://galaxyhi4276.co/api',
 }[process.env.NODE_ENV ?? 'development'];
@@ -24,6 +24,8 @@ const _axios = axios.create({
 
 _axios.interceptors.request.use(flow([logRequest, setAccessToken]), undefined);
 _axios.interceptors.response.use(logResponse, logError);
+
+export const rawAxios = _axios;
 
 const axiosWrapper = async (
   method: keyof ApiMethods,

@@ -17,7 +17,7 @@ export const PostsService: PostsServiceClient = {
   },
 
   async getPosts(body) {
-    return await api.get(`/posts/list?${qs.stringify(body)}`);
+    return await api.post(`/v2/posts/list`, body);
   },
 
   async getPost(body) {
