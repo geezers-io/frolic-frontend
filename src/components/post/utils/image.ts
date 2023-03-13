@@ -10,3 +10,7 @@ export const getImageUrlsFromFiles = async (files: FileInfo[]): Promise<string[]
   const blobs = await Promise.all(files.map(getFilename).map(downloadFile));
   return blobs.map(blobToUrl);
 };
+
+export async function getImageBlob(fileInfo: FileInfo) {
+  return downloadFile(getFilename(fileInfo));
+}
