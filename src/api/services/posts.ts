@@ -5,31 +5,27 @@ import { api } from 'api/client';
 
 export const PostsService: PostsServiceClient = {
   async createPost(body) {
-    return await api.post(`/v2/posts`, body);
+    return await api.post(`/posts`, body);
   },
 
   async updatePost({ postId, ...body }) {
-    return await api.put(`/v2/posts/${postId}`, body);
+    return await api.put(`/posts/${postId}`, body);
   },
 
   async deletePost(body) {
-    return await api.delete(`/v2/posts/${body.postId}`);
+    return await api.delete(`/posts/${body.postId}`);
   },
 
   async getPosts(body) {
-    return await api.post(`/v2/posts/list`, body);
-  },
-
-  async getPost(body) {
-    return await api.get(`/posts/${body.postId}`);
+    return await api.post(`/posts/list`, body);
   },
 
   async getUserPosts(body) {
-    return await api.get(`/posts/list/token?${qs.stringify(body)}`);
+    return await api.get(`/posts/list/user?${qs.stringify(body)}`);
   },
 
-  async getPostsByHashtags(body) {
-    return await api.get(`/posts/search?${qs.stringify(body.hashtags)}`);
+  async getPostsByHashtags({ hashtags }) {
+    return await api.get(`/posts/search?${qs.stringify(hashtags)}`);
   },
 
   async likePost(body) {
