@@ -24,7 +24,7 @@ const MainPage: NextPage = () => {
     async (cursorId: number | null = null) => {
       try {
         // setLoading(true);
-        const posts = await PostsService.getPosts(cursorId);
+        const posts = await PostsService.getPosts({ cursorId });
         setPosts(posts);
         setInitialLoaded(true);
       } catch (err) {
