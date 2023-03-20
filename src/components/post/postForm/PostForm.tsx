@@ -10,8 +10,7 @@ import { Post } from 'api/@types/posts';
 import { FileService, PostsService } from 'api/services';
 import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
-
-import { getImageBlob } from '../utils/image';
+import { getImageBlob } from 'utils/image';
 
 interface Props {
   visible: boolean;

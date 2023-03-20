@@ -14,8 +14,8 @@ export const FileService: FileServiceClient = {
     });
   },
 
-  downloadFile(filename: string) {
-    return rawAxios
+  async downloadFile(filename: string) {
+    return await rawAxios
       .get<Blob>(`/file/${encodeURIComponent(filename)}`, { responseType: 'blob' })
       .then((data) => new Blob([data.data]));
   },

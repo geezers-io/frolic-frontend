@@ -23,15 +23,12 @@ const MainPage: NextPage = () => {
   const getPosts = useCallback(
     async (cursorId: number | null = null) => {
       try {
-        // setLoading(true);
         const posts = await PostsService.getPosts({ cursorId });
         setPosts(posts);
         setInitialLoaded(true);
       } catch (err) {
         await messageApi.error(err.message, 1);
         router.push('/auth/sign-in');
-      } finally {
-        // setLoading(false);
       }
     },
     [messageApi, router, setPosts]

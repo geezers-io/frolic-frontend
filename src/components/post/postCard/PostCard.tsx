@@ -13,7 +13,7 @@ import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
 import { days } from 'utils/days';
 
-import { useFetchImageUrls } from '../hooks/useFetchImageUrls';
+import { useFetchImageUrls } from '../../../hooks/useFetchImageUrls';
 import PostCardCarousel from './PostCardCarousel';
 
 interface Props {
