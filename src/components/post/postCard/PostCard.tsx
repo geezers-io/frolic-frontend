@@ -10,10 +10,10 @@ import Hashtag from 'components/hashtag/Hashtag';
 import PostCardFooter from 'components/post/postCard/PostCardFooter';
 import PostDropdown from 'components/post/postCard/PostDropdown';
 import UserIcon from 'components/userPanel/UserIcon';
+import { useFetchImageUrls } from 'hooks/useFetchImageUrls';
 import atomStore from 'stores/atom';
 import { days } from 'utils/days';
 
-import { useFetchImageUrls } from '../../../hooks/useFetchImageUrls';
 import PostCardCarousel from './PostCardCarousel';
 
 interface Props {
