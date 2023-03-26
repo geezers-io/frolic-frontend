@@ -10,7 +10,7 @@ import { logError, logResponse } from './interceptors/response';
 import { AuthService } from './services';
 
 const API_URL = {
-  development: 'http://localhost:8088/api',
+  development: 'http://localhost:8081/api',
   test: 'https://galaxyhi4276.co/api',
   production: 'https://galaxyhi4276.co/api',
 }[process.env.NODE_ENV ?? 'development'];
