@@ -14,7 +14,6 @@ import { meAtom } from 'stores/atom/user';
 
 interface Props {
   postId: number;
-  postOwnerId: number;
   comment: CommentInfo;
   setComments: React.Dispatch<React.SetStateAction<CommentInfo[]>>;
 }
@@ -30,7 +29,7 @@ const menuItems: ItemType[] = [
   { label: '댓글 삭제', key: MenuKey.DeleteComment },
 ];
 
-const PostComment: React.FC<Props> = ({ postId, postOwnerId, comment, setComments }) => {
+const PostComment: React.FC<Props> = ({ postId, comment, setComments }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const me = useRecoilValue(meAtom);
   const { isModalOpen: isEditModalOpen, openModal: openEditModal, closeModal: closeEditModal } = useModal();
@@ -40,7 +39,6 @@ const PostComment: React.FC<Props> = ({ postId, postOwnerId, comment, setComment
       try {
         const updated = await CommentsService.updateComment({
           postId: edited.postId,
-          postOwnerId,
           commentId: edited.id,
           textContent: edited.textContent,
         });
@@ -55,7 +53,7 @@ const PostComment: React.FC<Props> = ({ postId, postOwnerId, comment, setComment
         messageApi.error(e.message);
       }
     },
-    [messageApi, postOwnerId, setComments]
+    [messageApi, setComments]
   );
 
   const handleDropdownClick = useCallback<Required<MenuProps>['onClick']>(

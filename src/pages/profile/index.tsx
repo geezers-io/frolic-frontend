@@ -29,18 +29,21 @@ const MeProfilePage: NextPage = () => {
     }
   }, [messageApi, setMe]);
 
-  const getMyPosts = useCallback(async () => {
-    try {
-      const myPosts = await PostsService.getUserPosts({ page: 0, size: 99999 });
-      setMyPosts(myPosts);
-    } catch (e) {
-      messageApi.error(e.message);
-    }
-  }, [messageApi]);
+  const getMyPosts = useCallback(
+    async (cursorId: number | null) => {
+      try {
+        const myPosts = await PostsService.getUserPosts({ cursorId });
+        setMyPosts(myPosts);
+      } catch (e) {
+        messageApi.error(e.message);
+      }
+    },
+    [messageApi]
+  );
 
   useEffect(() => {
     getMe();
-    getMyPosts();
+    getMyPosts(null);
   }, []);
 
   if (!me) {
