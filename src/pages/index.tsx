@@ -21,7 +21,7 @@ const MainPage: NextPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const getPosts = useCallback(
-    async (cursorId: number | null = null) => {
+    async (cursorId: number | null) => {
       try {
         const posts = await PostsService.getPosts({ cursorId });
         setPosts(posts);
