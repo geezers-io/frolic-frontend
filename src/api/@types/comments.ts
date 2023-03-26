@@ -11,16 +11,12 @@ export interface CommentInfo {
 
 export interface CreateCommentRequest {
   postId: number;
-  postOwnerId: number;
-  // replyUserId: number;
   textContent: string;
 }
 
 export interface UpdateCommentRequest {
   commentId: number;
   postId: number;
-  postOwnerId: number;
-  // replyUserId: number;
   textContent: string;
 }
 

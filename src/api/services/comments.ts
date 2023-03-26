@@ -3,11 +3,11 @@ import { api } from 'api/client';
 
 export const CommentsService: CommentsServiceClient = {
   async createComment(body) {
-    return await api.post(`/comments`, { ...body, replyUserId: null });
+    return await api.post(`/comments`, body);
   },
 
-  async updateComment({ commentId, ...rest }) {
-    return await api.put(`/comments/${commentId}`, { ...rest, replyUserId: null });
+  async updateComment({ commentId, ...body }) {
+    return await api.put(`/comments/${commentId}`, body);
   },
 
   async getCommentDetail(body) {
