@@ -1,5 +1,4 @@
 import { Empty } from 'api/@types/@shared';
-import { CommentInfo } from 'api/@types/comments';
 import { FileInfo } from 'api/@types/file';
 import { User } from 'api/@types/user';
 
@@ -7,7 +6,7 @@ export interface Post {
   id: number;
   userInfo: User;
   textContent: string;
-  comments: CommentInfo[];
+  commentCount: number;
   hashtags: string[];
   likeCount: number;
   files: FileInfo[];
@@ -38,8 +37,7 @@ export interface GetPostRequest {
 }
 
 export interface GetPostsRequest {
-  page: number;
-  size: number;
+  cursorId: number | null;
 }
 
 export interface GetUserPostsRequest {
@@ -87,11 +85,6 @@ export interface PostsServiceClient {
    * 필터링 없이 모든 게시글을 생성 일자 순으로 가져옵니다 (페이지네이션을 지원합니다).
    */
   getPosts(request: GetPostsRequest): Promise<Post[]>;
-
-  /**
-   * 해당 게시글 id (고유 번호) 에 대응하는 게시글 정보를 가져옵니다.
-   */
-  getPost(request: GetPostRequest): Promise<Post>;
 
   /**
    * 로그인 된 사용자의 게시글을 생성 일자 순으로 가져옵니다 (페이지네이션을 지원합니다). page, size 옵션을 완전 배제할 경우 모든 게시글을 반환합니다.

@@ -10,6 +10,7 @@ import Hashtag from 'components/hashtag/Hashtag';
 import PostCardFooter from 'components/post/postCard/PostCardFooter';
 import PostDropdown from 'components/post/postCard/PostDropdown';
 import UserIcon from 'components/userPanel/UserIcon';
+import { useFetchImageUrls } from 'hooks/useFetchImageUrls';
 import atomStore from 'stores/atom';
 import { days } from 'utils/days';
 
@@ -24,16 +25,13 @@ const PostCard: React.FC<Props> = ({ post }) => {
 
   const router = useRouter();
   const me = useRecoilValue(atomStore.meAtom);
+  const imageUrls = useFetchImageUrls(files);
 
   const createdFrom = useMemo(() => {
     const suffix = createdDate === updatedDate ? '' : ' (수정됨)';
 
     return days(createdDate).fromNow() + suffix;
   }, [createdDate, updatedDate]);
-
-  const imageUrls = useMemo(() => {
-    return files.map((image) => image.downloadUrl);
-  }, [files]);
 
   const handleUserProfileClicked = useCallback(() => {
     router.push(`/profile/${userInfo.username}`);

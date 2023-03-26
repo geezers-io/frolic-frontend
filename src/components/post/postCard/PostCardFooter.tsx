@@ -21,7 +21,7 @@ const PostCardFooter: React.FC<Props> = ({ post }) => {
     likeCount: post.likeCount,
     color: post.likeUp ? LIKE_COLOR : NOT_LIKE_COLOR,
   });
-  const [commentsLength, setCommentsLength] = useState<number>(post.comments.length);
+  const [commentsLength, setCommentsLength] = useState<number>(0);
   const [messageApi, contextHolder] = message.useMessage();
 
   const handleClickCommentBox = useCallback(() => {

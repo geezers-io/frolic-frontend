@@ -10,6 +10,7 @@ import { Post } from 'api/@types/posts';
 import { FileService, PostsService } from 'api/services';
 import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
+import { getImageBlob } from 'utils/image';
 
 interface Props {
   visible: boolean;
@@ -78,7 +79,6 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
           data: {
             name: file.name,
             uid: file.uid,
-            url: uploaded.downloadUrl,
             originFileObj: file,
           },
         };
@@ -140,9 +140,8 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
 
       try {
         for (const fileInfo of initialValues.files) {
-          const res = await fetch(new Request(fileInfo.downloadUrl));
-          const blob = await res.blob();
-          const file = new File([blob], fileInfo.downloadUrl, {
+          const blob = await getImageBlob(fileInfo);
+          const file = new File([blob], fileInfo.filename, {
             type: 'image/jpeg',
           });
 
@@ -150,8 +149,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
             info: fileInfo,
             data: {
               name: fileInfo.filename,
-              url: fileInfo.downloadUrl,
-              uid: fileInfo.downloadUrl,
+              uid: fileInfo.filename,
               originFileObj: file as RcFile,
             },
           };
