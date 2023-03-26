@@ -40,11 +40,6 @@ export interface GetPostsRequest {
   cursorId: number | null;
 }
 
-export interface GetUserPostsRequest {
-  page: number;
-  size: number;
-}
-
 export interface GetPostsByHashtagsRequest {
   hashtags: string[];
 }
@@ -89,7 +84,7 @@ export interface PostsServiceClient {
   /**
    * 로그인 된 사용자의 게시글을 생성 일자 순으로 가져옵니다 (페이지네이션을 지원합니다). page, size 옵션을 완전 배제할 경우 모든 게시글을 반환합니다.
    */
-  getUserPosts(request: GetUserPostsRequest): Promise<Post[]>;
+  getUserPosts(request: GetPostsRequest): Promise<Post[]>;
 
   /**
    * 해시태그 값들을 받아서, 대응하는 게시글을 반환합니다.

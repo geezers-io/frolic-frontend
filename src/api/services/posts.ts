@@ -21,11 +21,11 @@ export const PostsService: PostsServiceClient = {
   },
 
   async getUserPosts(body) {
-    return await api.get(`/posts/list/user?${qs.stringify(body)}`);
+    return await api.post(`/posts/list/user`, body);
   },
 
-  async getPostsByHashtags({ hashtags }) {
-    return await api.get(`/posts/search?${qs.stringify(hashtags)}`);
+  async getPostsByHashtags(body) {
+    return await api.post(`/posts/list/search`, body);
   },
 
   async likePost(body) {
