@@ -75,6 +75,11 @@ export interface AuthServiceClient {
   logout(): Promise<Empty>;
 
   /**
+   * refreshToken 을 헤더에 포함시켜 accessToken 을 새로 발급 받습니다.
+   */
+  reIssueAccessToken(request: ReIssueAccessTokenRequest): Promise<ReIssueAccessTokenResponse>;
+
+  /**
    * 이메일 찾기 요청 step 1
    */
   findEmailFirstStep(request: FindEmailFirstStepRequest): Promise<Empty>;
@@ -93,9 +98,4 @@ export interface AuthServiceClient {
    * 비밀번호 찾기 요청 step 2
    */
   findPasswordSecondStep(request: FindPasswordSecondStepRequest): Promise<Empty>;
-
-  /**
-   * refreshToken 을 헤더에 포함시켜 accessToken 을 새로 발급 받습니다.
-   */
-  reIssueAccessToken(request: ReIssueAccessTokenRequest): Promise<ReIssueAccessTokenResponse>;
 }

@@ -14,6 +14,14 @@ export const AuthService: AuthServiceClient = {
     return await api.get('/auth/logout');
   },
 
+  async reIssueAccessToken(body) {
+    return await api.get('/auth/reissue', {
+      headers: {
+        authorization: `Bearer ${body.refreshToken}`,
+      },
+    });
+  },
+
   async findEmailFirstStep(body) {
     return await api.post('/auth/finder/email', body);
   },
@@ -28,13 +36,5 @@ export const AuthService: AuthServiceClient = {
 
   async findPasswordSecondStep(body) {
     return await api.post('/auth/finder/password/check', body);
-  },
-
-  async reIssueAccessToken(body) {
-    return await api.get('/auth/reissue', {
-      headers: {
-        authorization: `Bearer ${body.refreshToken}`,
-      },
-    });
   },
 };
