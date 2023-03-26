@@ -1,6 +1,6 @@
 import { Empty } from 'api/@types/@shared';
 import { FileInfo } from 'api/@types/file';
-import { User } from 'api/@types/user';
+import { User } from 'api/@types/users';
 
 export interface Post {
   id: number;

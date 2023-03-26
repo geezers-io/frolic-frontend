@@ -5,7 +5,7 @@ import { message } from 'antd';
 import { useRecoilState } from 'recoil';
 
 import { Post } from 'api/@types/posts';
-import { PostsService, UserService } from 'api/services';
+import { PostsService, UsersService } from 'api/services';
 import EmptyFeed from 'components/empty/EmptyFeed';
 import EmptySpace from 'components/empty/EmptySpace';
 import PostCard from 'components/post/postCard/PostCard';
@@ -22,7 +22,7 @@ const MeProfilePage: NextPage = () => {
 
   const getMe = useCallback(async () => {
     try {
-      const me = await UserService.getMe();
+      const me = await UsersService.getMe();
       setMe(me);
     } catch (e) {
       messageApi.error(e.message);

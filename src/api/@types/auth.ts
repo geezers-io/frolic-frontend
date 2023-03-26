@@ -1,5 +1,5 @@
 import { Empty } from 'api/@types/@shared';
-import { UserDetail } from 'api/@types/user';
+import { UserDetail } from 'api/@types/users';
 
 export interface Token {
   accessToken: string;

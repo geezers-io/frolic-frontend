@@ -1,7 +1,7 @@
-import { UserServiceClient } from 'api/@types/user';
+import { UsersServiceClient } from 'api/@types/users';
 import { api } from 'api/client';
 
-export const UserService: UserServiceClient = {
+export const UsersService: UsersServiceClient = {
   async getMe() {
     return await api.get('/users');
   },

@@ -5,8 +5,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useRecoilValue } from 'recoil';
 
-import { UserDetail } from 'api/@types/user';
-import { UserService } from 'api/services';
+import { UserDetail } from 'api/@types/users';
+import { UsersService } from 'api/services';
 import PostCreateButton from 'components/post/postForm/PostCreateButton';
 import UserPanel from 'components/userPanel/UserPanel';
 import AppLayout from 'layouts/AppLayout';
@@ -23,7 +23,7 @@ const UserProfilePage: NextPage = () => {
   const getUser = useCallback(
     async (username: string) => {
       try {
-        const user = await UserService.getUser({ username });
+        const user = await UsersService.getUser({ username });
         setUser(user);
       } catch (e) {
         messageApi.error(e.message);

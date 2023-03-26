@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { message, Modal } from 'antd';
 import { useRecoilValue } from 'recoil';
 
-import { UserSimple } from 'api/@types/user';
-import { UserService } from 'api/services';
+import { UserSimple } from 'api/@types/users';
+import { UsersService } from 'api/services';
 import Following from 'components/following/Following';
 import atomStore from 'stores/atom';
 
@@ -22,7 +22,7 @@ const FollowingsModal: React.FC<Props> = ({ isShow, handleClose }) => {
     if (!me) return;
 
     try {
-      const followings = await UserService.getFollowingsByUsername({ username: me.userInfo.username });
+      const followings = await UsersService.getFollowingsByUsername({ username: me.userInfo.username });
       setFollowings(followings);
     } catch (e) {
       messageApi.error(e.message);

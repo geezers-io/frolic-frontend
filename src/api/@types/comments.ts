@@ -1,5 +1,5 @@
 import { Empty } from 'api/@types/@shared';
-import { User } from 'api/@types/user';
+import { User } from 'api/@types/users';
 
 export interface CommentInfo {
   id: number;
