@@ -1,5 +1,5 @@
 import { AuthServiceClient } from 'api/@types/auth';
-import { api } from 'api/client';
+import { api, rawAxios } from 'api/client';
 
 export const AuthService: AuthServiceClient = {
   async createUser(body) {
@@ -15,7 +15,7 @@ export const AuthService: AuthServiceClient = {
   },
 
   async reIssueAccessToken(body) {
-    return await api.get('/auth/reissue', {
+    return await rawAxios.get('/auth/reissue', {
       headers: {
         authorization: `Bearer ${body.refreshToken}`,
       },

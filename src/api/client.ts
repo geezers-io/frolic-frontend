@@ -15,8 +15,6 @@ const API_URL = {
   production: 'https://galaxyhi4276.co/api',
 }[process.env.NODE_ENV ?? 'development'];
 
-const tokenErrorStatusList = [401, 403];
-
 const _axios = axios.create({
   baseURL: API_URL,
   timeout: 5000,
@@ -47,23 +45,26 @@ const axiosWrapper = async (
     return data;
   } catch (e) {
     const error = e as AxiosError;
-    const url = error.config?.url ?? '';
     const status = error.response?.status ?? error.status;
 
     const errorMessage = getErrorMessage(error);
 
-    const reIssueTokenError = url === '/auth/reissue' && status && tokenErrorStatusList.includes(status);
-    if (!reIssueTokenError) {
+    const isAuthError = status && [401, 403].includes(status);
+    if (!isAuthError) {
       throw new Error(errorMessage);
     }
 
     try {
       const refreshToken = token.refreshToken.get();
       if (!refreshToken) {
-        throw new Error(errorMessage);
+        throw '';
       }
 
-      const { accessToken: newAccessToken } = await AuthService.reIssueAccessToken({ refreshToken });
+      const {
+        data: {
+          data: { accessToken: newAccessToken },
+        },
+      } = await AuthService.reIssueAccessToken({ refreshToken });
 
       token.accessToken.set(newAccessToken);
 
@@ -72,10 +73,11 @@ const axiosWrapper = async (
       } = (await _axios[method].apply(null, args as any)) as any;
 
       return data;
-    } catch (e) {
-      console.error(e);
+    } catch {
+      log.debug('토큰 갱신 실패, 인증 페이지로 이동합니다.');
       token.clear();
       location.href = '/auth/sign-in';
+      throw new Error(errorMessage);
     }
   }
 };

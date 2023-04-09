@@ -51,7 +51,7 @@ const MainPage: NextPage = () => {
     <AppLayout>
       {contextHolder}
       <PostCreateButton />
-      {posts?.length === 0 ? <EmptyFeed /> : posts?.map((post) => <PostCard key={post.id} post={post} />)}
+      {!posts?.length ? <EmptyFeed /> : posts.map((post) => <PostCard key={post.id} post={post} />)}
     </AppLayout>
   );
 };
