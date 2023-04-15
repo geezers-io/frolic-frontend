@@ -38,7 +38,7 @@ const SearchPage: NextPage<Props> = ({ hashtags }) => {
 
       {posts === undefined && <PostCardsSkeleton />}
       {posts?.length === 0 && <EmptyFeed />}
-      {posts?.length && (
+      {!!posts?.length && (
         <>
           <section className="flex flex-col items-center py-8">
             <div className="flex gap-x-1">
