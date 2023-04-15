@@ -31,7 +31,8 @@ interface ImageData {
 const TEXT_CONTENT_MAX_LENGTH = 140;
 
 function parseHashtags(content: string): string[] {
-  return content.match(hashtagRegex) ?? [];
+  const hashtags = content.match(hashtagRegex) ?? [];
+  return [...new Set(hashtags)];
 }
 
 const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
