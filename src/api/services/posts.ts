@@ -25,7 +25,17 @@ export const PostsService: PostsServiceClient = {
   },
 
   async getPostsByHashtags(body) {
-    return await api.post(`/posts/list/search`, body);
+    return await api.post(
+      `/posts/list/search?${qs.stringify(
+        {
+          hashtags: body.hashtags,
+        },
+        { indices: false }
+      )}`,
+      {
+        cursorId: body.cursorId,
+      }
+    );
   },
 
   async likePost(body) {
