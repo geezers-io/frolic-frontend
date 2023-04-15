@@ -82,8 +82,6 @@ const PostComments: React.FC<Props> = ({ postId, setCommentsLength }) => {
     resizeCommentInput();
   }, [commentInputRef.current, commentInputValue]);
 
-  console.log('render');
-
   return (
     <>
       {contextHolder}
