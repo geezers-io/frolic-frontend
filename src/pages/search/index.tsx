@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { message } from 'antd';
@@ -17,13 +16,12 @@ interface Props {
 }
 
 const SearchPage: NextPage<Props> = ({ hashtags }) => {
-  const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
   const [posts, setPosts] = useState<Post[]>();
 
   const getPosts = useCallback(async () => {
     try {
-      const posts = await PostsService.getPostsByHashtags({ hashtags });
+      const posts = await PostsService.getPostsByHashtags({ hashtags, cursorId: null });
       setPosts(posts);
     } catch (e) {
       messageApi.error(e.message);

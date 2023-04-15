@@ -17,14 +17,14 @@ export interface Post {
 
 export interface CreatePostRequest {
   textContent: string;
-  // hashtags: string[]; //TODO: hashtags 추가
+  hashtags: string[];
   imageIds: number[];
 }
 
 export interface UpdatePostRequest {
   postId: number;
   textContent: string;
-  // hashtags: string[]; //TODO: hashtags 추가
+  hashtags: string[];
   imageIds: number[];
 }
 
@@ -41,6 +41,7 @@ export interface GetPostsRequest {
 }
 
 export interface GetPostsByHashtagsRequest {
+  cursorId: number | null;
   hashtags: string[];
 }
 
