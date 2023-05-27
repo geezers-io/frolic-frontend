@@ -32,16 +32,14 @@ export interface DeletePostRequest {
   postId: number;
 }
 
-export interface GetPostRequest {
-  postId: number;
-}
+export type CursorId = number | null;
 
 export interface GetPostsRequest {
-  cursorId: number | null;
+  cursorId: CursorId;
 }
 
 export interface GetPostsByHashtagsRequest {
-  cursorId: number | null;
+  cursorId: CursorId;
   hashtags: string[];
 }
 
