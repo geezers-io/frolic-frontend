@@ -82,7 +82,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
             <span className="text-xs text-gray-400">{createdFrom}</span>
           </section>
           <section
-            className="mt-2"
+            className="mt-2 whitespace-pre-line"
             dangerouslySetInnerHTML={{
               __html: textContent.replace(hashtagRegex, (tag) => {
                 return `<a href="/search?hashtags=${encodeURIComponent(hashtagsParser.serialize([tag]))}">${tag}</a>`;
