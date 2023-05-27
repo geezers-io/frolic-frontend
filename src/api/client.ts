@@ -77,7 +77,6 @@ const axiosWrapper = async (
       log.debug('토큰 갱신 실패, 인증 페이지로 이동합니다.');
       token.clear();
       location.href = '/auth/sign-in';
-      throw new Error(errorMessage);
     }
   }
 };

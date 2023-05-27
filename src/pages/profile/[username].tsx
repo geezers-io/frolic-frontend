@@ -5,8 +5,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useRecoilValue } from 'recoil';
 
+import { Post } from 'api/@types/posts';
 import { UserDetail } from 'api/@types/users';
-import { UsersService } from 'api/services';
+import { PostsService, UsersService } from 'api/services';
 import PostCreateButton from 'components/post/postForm/PostCreateButton';
 import UserPanel from 'components/userPanel/UserPanel';
 import AppLayout from 'layouts/AppLayout';
@@ -18,7 +19,7 @@ const UserProfilePage: NextPage = () => {
   const me = useRecoilValue(atomStore.meAtom);
   const [messageApi, contextHolder] = message.useMessage();
   const [user, setUser] = useState<UserDetail>();
-  // const [posts, setPosts] = useState<Post[]>();
+  const [posts, setPosts] = useState<Post[]>();
 
   const getUser = useCallback(
     async (username: string) => {
@@ -32,17 +33,14 @@ const UserProfilePage: NextPage = () => {
     [messageApi, setUser]
   );
 
-  // const getPosts = useCallback(
-  //   async (username: string) => {
-  //     try {
-  //       const posts = await PostsService.getPosts({ username, page: 0, size: 99999 });
-  //       setPosts(posts);
-  //     } catch (e) {
-  //       messageApi.error(e.message);
-  //     }
-  //   },
-  //   [messageApi]
-  // );
+  const getPosts = useCallback(async () => {
+    try {
+      const posts = await PostsService.getUserPosts({ cursorId: null });
+      setPosts(posts);
+    } catch (e) {
+      messageApi.error(e.message);
+    }
+  }, [messageApi]);
 
   useEffect(() => {
     if (!username) {
@@ -56,7 +54,7 @@ const UserProfilePage: NextPage = () => {
     }
 
     getUser(username);
-    // getPosts(username);
+    getPosts();
   }, []);
 
   if (!user) return null;
@@ -71,9 +69,9 @@ const UserProfilePage: NextPage = () => {
 
       {/*<EmptySpace />*/}
 
-      {/*{posts === undefined && <PostCardsSkeleton />}*/}
-      {/*{posts?.length === 0 && <EmptyFeed />}*/}
-      {/*{posts?.length && posts.map((post) => <PostCard key={post.id} post={post} />)}*/}
+      {posts === undefined && <PostCardsSkeleton />}
+      {posts?.length === 0 && <EmptyFeed />}
+      {!!posts?.length && posts.map((post) => <PostCard key={post.id} post={post} />)}
     </AppLayout>
   );
 };
