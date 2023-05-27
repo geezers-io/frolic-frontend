@@ -1,13 +1,15 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { ApiMethods } from 'api/@types/@shared';
+import { RecoilSet } from 'stores/RecoilUtils';
+import atomStore from 'stores/atom';
 import { flow } from 'utils/flow';
 import { token } from 'utils/token';
 
 import { getErrorMessage, getRequestArgs } from './helper';
 import { setAccessToken, logRequest } from './interceptors/request';
 import { logError, logResponse } from './interceptors/response';
-import { AuthService } from './services';
+import { AuthService, UsersService } from './services';
 
 const API_URL = {
   development: 'http://localhost:8081/api',
@@ -69,12 +71,19 @@ const axiosWrapper = async (
       token.accessToken.set(newAccessToken);
 
       const {
+        data: { data: me },
+      } = await UsersService.getMe();
+
+      RecoilSet(atomStore.meAtom, me);
+
+      const {
         data: { data },
       } = (await _axios[method].apply(null, args as any)) as any;
 
       return data;
     } catch {
       log.debug('토큰 갱신 실패, 인증 페이지로 이동합니다.');
+      RecoilSet(atomStore.meAtom, undefined);
       token.clear();
       location.href = '/auth/sign-in';
     }

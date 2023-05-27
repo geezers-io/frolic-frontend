@@ -5,14 +5,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useRecoilValue } from 'recoil';
 
-import { Post } from 'api/@types/posts';
 import { UserDetail } from 'api/@types/users';
 import { PostsService, UsersService } from 'api/services';
-import EmptyFeed from 'components/empty/EmptyFeed';
-import PostCard from 'components/post/postCard/PostCard';
-import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
+import EmptySpace from 'components/empty/EmptySpace';
+import Posts from 'components/post/Posts';
 import PostCreateButton from 'components/post/postForm/PostCreateButton';
 import UserPanel from 'components/userPanel/UserPanel';
+import { usePostsInfinityScroll } from 'hooks/usePostsInfinityScroll';
 import AppLayout from 'layouts/AppLayout';
 import atomStore from 'stores/atom';
 
@@ -22,7 +21,16 @@ const UserProfilePage: NextPage = () => {
   const me = useRecoilValue(atomStore.meAtom);
   const [messageApi, contextHolder] = message.useMessage();
   const [user, setUser] = useState<UserDetail>();
-  const [posts, setPosts] = useState<Post[]>();
+
+  const {
+    posts,
+    postsHandler,
+    loaderRef,
+    showLoader,
+    error: postsError,
+  } = usePostsInfinityScroll(PostsService.getUserPosts /* FIXME: ByUserName API 복구되면 교체하기 */, {
+    ready: !!user,
+  });
 
   const getUser = useCallback(
     async (username: string) => {
@@ -36,14 +44,11 @@ const UserProfilePage: NextPage = () => {
     [messageApi, setUser]
   );
 
-  const getPosts = useCallback(async () => {
-    try {
-      const posts = await PostsService.getUserPosts({ cursorId: null });
-      setPosts(posts);
-    } catch (e) {
-      messageApi.error(e.message);
+  useEffect(() => {
+    if (postsError) {
+      messageApi.error(postsError.message);
     }
-  }, [messageApi]);
+  }, [postsError]);
 
   useEffect(() => {
     if (!username) {
@@ -57,7 +62,6 @@ const UserProfilePage: NextPage = () => {
     }
 
     getUser(username);
-    getPosts();
   }, []);
 
   if (!user) return null;
@@ -66,15 +70,20 @@ const UserProfilePage: NextPage = () => {
     <AppLayout>
       {contextHolder}
 
-      <PostCreateButton />
+      <PostCreateButton addPost={postsHandler.add} />
 
       <UserPanel user={user} />
 
-      {/*<EmptySpace />*/}
+      <EmptySpace />
 
-      {posts === undefined && <PostCardsSkeleton />}
-      {posts?.length === 0 && <EmptyFeed />}
-      {!!posts?.length && posts.map((post) => <PostCard key={post.id} post={post} />)}
+      <Posts
+        posts={posts}
+        postsHandler={postsHandler}
+        loader={{
+          show: showLoader,
+          ref: loaderRef,
+        }}
+      />
     </AppLayout>
   );
 };

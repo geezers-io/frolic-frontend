@@ -1,50 +1,29 @@
 import { NextPage } from 'next';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { message } from 'antd';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { Post } from 'api/@types/posts';
-import { PostsService, UsersService } from 'api/services';
-import EmptyFeed from 'components/empty/EmptyFeed';
+import { PostsService } from 'api/services';
 import EmptySpace from 'components/empty/EmptySpace';
-import PostCard from 'components/post/postCard/PostCard';
-import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
+import Posts from 'components/post/Posts';
 import PostCreateButton from 'components/post/postForm/PostCreateButton';
 import UserPanel from 'components/userPanel/UserPanel';
+import { usePostsInfinityScroll } from 'hooks/usePostsInfinityScroll';
 import AppLayout from 'layouts/AppLayout';
 import atomStore from 'stores/atom';
 
 const MeProfilePage: NextPage = () => {
-  const [me, setMe] = useRecoilState(atomStore.meAtom);
+  const me = useRecoilValue(atomStore.meAtom);
   const [messageApi, contextHolder] = message.useMessage();
-  const [myPosts, setMyPosts] = useState<Post[]>();
 
-  const getMe = useCallback(async () => {
-    try {
-      const me = await UsersService.getMe();
-      setMe(me);
-    } catch (e) {
-      messageApi.error(e.message);
-    }
-  }, [messageApi, setMe]);
-
-  const getMyPosts = useCallback(
-    async (cursorId: number | null) => {
-      try {
-        const myPosts = await PostsService.getUserPosts({ cursorId });
-        setMyPosts(myPosts);
-      } catch (e) {
-        messageApi.error(e.message);
-      }
-    },
-    [messageApi]
-  );
+  const { posts, postsHandler, loaderRef, showLoader, error } = usePostsInfinityScroll(PostsService.getUserPosts);
 
   useEffect(() => {
-    getMe();
-    getMyPosts(null);
-  }, []);
+    if (error) {
+      messageApi.error(error.message);
+    }
+  }, [error]);
 
   if (!me) {
     return null;
@@ -53,15 +32,20 @@ const MeProfilePage: NextPage = () => {
     <AppLayout>
       {contextHolder}
 
-      <PostCreateButton />
+      <PostCreateButton addPost={postsHandler.add} />
 
       <UserPanel user={me} />
 
       <EmptySpace />
 
-      {myPosts === undefined && <PostCardsSkeleton />}
-      {!myPosts?.length && <EmptyFeed />}
-      {!!myPosts?.length && myPosts.map((post) => <PostCard key={post.id} post={post} />)}
+      <Posts
+        posts={posts}
+        postsHandler={postsHandler}
+        loader={{
+          show: showLoader,
+          ref: loaderRef,
+        }}
+      />
     </AppLayout>
   );
 };

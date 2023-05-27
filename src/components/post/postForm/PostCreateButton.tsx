@@ -3,10 +3,15 @@ import React from 'react';
 import { FormOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
+import { Post } from 'api/@types/posts';
 import PostForm from 'components/post/postForm/PostForm';
 import { useModal } from 'hooks/useModal';
 
-const PostCreateButton: React.FC = () => {
+interface Props {
+  addPost: (post: Post) => void;
+}
+
+const PostCreateButton: React.FC<Props> = ({ addPost }) => {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
@@ -21,7 +26,7 @@ const PostCreateButton: React.FC = () => {
           display: isModalOpen ? 'none' : 'initial',
         }}
       />
-      <PostForm visible={isModalOpen} onCancel={closeModal} />
+      <PostForm visible={isModalOpen} onOk={addPost} onCancel={closeModal} />
     </>
   );
 };

@@ -1,59 +1,39 @@
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { message } from 'antd';
-import { useRecoilState } from 'recoil';
 
 import { PostsService } from 'api/services';
-import EmptyFeed from 'components/empty/EmptyFeed';
-import PostCard from 'components/post/postCard/PostCard';
-import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
+import Posts from 'components/post/Posts';
 import PostCreateButton from 'components/post/postForm/PostCreateButton';
+import { usePostsInfinityScroll } from 'hooks/usePostsInfinityScroll';
 import AppLayout from 'layouts/AppLayout';
-import atomStore from 'stores/atom';
 
 const MainPage: NextPage = () => {
-  const router = useRouter();
-  const [posts, setPosts] = useRecoilState(atomStore.mainPagePostsAtom);
-
-  const [initialLoaded, setInitialLoaded] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
-  const getPosts = useCallback(
-    async (cursorId: number | null) => {
-      try {
-        const posts = await PostsService.getPosts({ cursorId });
-        setPosts(posts);
-        setInitialLoaded(true);
-      } catch (err) {
-        await messageApi.error(err.message, 1);
-        router.push('/auth/sign-in');
-      }
-    },
-    [messageApi, router, setPosts]
-  );
+  const { posts, postsHandler, loaderRef, showLoader, error } = usePostsInfinityScroll(PostsService.getPosts);
 
-  // TODO: 페이지네이션 구현하기
   useEffect(() => {
-    getPosts(null);
-  }, [getPosts]);
+    if (error) {
+      messageApi.error(error.message);
+    }
+  }, [error]);
 
-  if (!initialLoaded) {
-    return (
-      <AppLayout>
-        {contextHolder}
-        <PostCardsSkeleton />
-      </AppLayout>
-    );
-  }
   return (
     <AppLayout>
       {contextHolder}
-      <PostCreateButton />
-      {posts === undefined && <PostCardsSkeleton />}
-      {posts?.length === 0 && <EmptyFeed />}
-      {!!posts?.length && posts.map((post) => <PostCard key={post.id} post={post} />)}
+
+      <PostCreateButton addPost={postsHandler.add} />
+
+      <Posts
+        posts={posts}
+        postsHandler={postsHandler}
+        loader={{
+          show: showLoader,
+          ref: loaderRef,
+        }}
+      />
     </AppLayout>
   );
 };

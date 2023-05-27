@@ -10,6 +10,7 @@ import PostCardFooter from 'components/post/postCard/PostCardFooter';
 import PostDropdown from 'components/post/postCard/PostDropdown';
 import UserIcon from 'components/userPanel/UserIcon';
 import { useFetchImageUrls } from 'hooks/useFetchImageUrls';
+import { PostsHandler } from 'hooks/usePostsInfinityScroll';
 import atomStore from 'stores/atom';
 import { days } from 'utils/days';
 import { hashtagsParser } from 'utils/hashtagParser';
@@ -19,9 +20,10 @@ import PostCardCarousel from './PostCardCarousel';
 
 interface Props {
   post: Post;
+  postsHandler: PostsHandler;
 }
 
-const PostCard: React.FC<Props> = ({ post }) => {
+const PostCard: React.FC<Props> = ({ post, postsHandler }) => {
   const { userInfo, textContent, createdDate, updatedDate, files } = post;
 
   const router = useRouter();
@@ -76,7 +78,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
               <span className="font-semibold">{userInfo.realname}</span>
               <span className="text-gray-500">@{userInfo.username}</span>
             </Button>
-            {userInfo.id === me?.userInfo.id && <PostDropdown post={post} />}
+            {userInfo.id === me?.userInfo.id && <PostDropdown post={post} postsHandler={postsHandler} />}
           </section>
           <section className="leading-none">
             <span className="text-xs text-gray-400">{createdFrom}</span>

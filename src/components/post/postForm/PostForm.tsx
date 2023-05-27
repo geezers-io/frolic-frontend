@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Form, message, Modal, Upload, UploadFile, UploadProps } from 'antd';
 import { RcFile } from 'antd/es/upload';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { FileInfo } from 'api/@types/file';
 import { Post } from 'api/@types/posts';
@@ -15,6 +15,7 @@ import { hashtagRegex } from 'utils/regex';
 
 interface Props {
   visible: boolean;
+  onOk: (post: Post) => void;
   onCancel: () => void;
   initialValues?: Post;
 }
@@ -35,12 +36,11 @@ function parseHashtags(content: string): string[] {
   return [...new Set(hashtags)];
 }
 
-const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
+const PostForm: React.FC<Props> = ({ visible, onOk, onCancel, initialValues }) => {
   const me = useRecoilValue(atomStore.meAtom);
   const [form] = Form.useForm();
   const [text, setText] = useState('');
   const [textareaFocus, setTextareaFocus] = useState(false);
-  const setPosts = useSetRecoilState(atomStore.mainPagePostsAtom);
   const [images, setImages] = useState<ImageData[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -111,20 +111,14 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
             imageIds,
             hashtags: parseHashtags(textContent),
           });
-          setPosts((prevPosts) => {
-            if (!prevPosts) return;
-            return prevPosts.map((post) => (post.id === edited.id ? edited : post));
-          });
+          onOk(edited);
         } else {
           const added = await PostsService.createPost({
             textContent,
             imageIds,
             hashtags: parseHashtags(textContent),
           });
-          setPosts((prevPosts) => {
-            if (!prevPosts) return;
-            return [added, ...prevPosts];
-          });
+          onOk(added);
         }
         setImages([]);
         handleCloseModal();
@@ -134,7 +128,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
         // setLoading(false);
       }
     },
-    [images, handleCloseModal, initialValues, messageApi, setPosts]
+    [images, initialValues, handleCloseModal, onOk, messageApi]
   );
 
   useEffect(() => {

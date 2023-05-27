@@ -1,9 +1,9 @@
 import { UsersServiceClient } from 'api/@types/users';
-import { api } from 'api/client';
+import { api, rawAxios } from 'api/client';
 
 export const UsersService: UsersServiceClient = {
   async getMe() {
-    return await api.get('/users');
+    return await rawAxios.get('/users');
   },
 
   async getUser(body) {
