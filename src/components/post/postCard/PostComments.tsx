@@ -11,11 +11,10 @@ import { meAtom } from 'stores/atom/user';
 
 interface Props {
   postId: number;
-  postOwnerId: number;
   setCommentsLength: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength }) => {
+const PostComments: React.FC<Props> = ({ postId, setCommentsLength }) => {
   const me = useRecoilValue(meAtom);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -55,7 +54,6 @@ const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength 
       const added = await CommentsService.createComment({
         postId,
         textContent: trimmedCommentInputValue,
-        postOwnerId,
       });
 
       setCommentsLength((prev) => prev + 1);
@@ -83,8 +81,6 @@ const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength 
   useEffect(() => {
     resizeCommentInput();
   }, [commentInputRef.current, commentInputValue]);
-
-  console.log('render');
 
   return (
     <>
@@ -114,13 +110,7 @@ const PostComments: React.FC<Props> = ({ postId, postOwnerId, setCommentsLength 
       {!!comments.length && (
         <div className="flex flex-col gap-4 max-h-[10.5rem] overflow-y-auto my-4 border-gray-400 scrollbar-none">
           {comments.map((comment) => (
-            <PostComment
-              key={'comment-' + comment.id}
-              comment={comment}
-              postId={postId}
-              postOwnerId={postOwnerId}
-              setComments={setComments}
-            />
+            <PostComment key={'comment-' + comment.id} comment={comment} postId={postId} setComments={setComments} />
           ))}
         </div>
       )}

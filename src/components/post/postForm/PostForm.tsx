@@ -11,6 +11,7 @@ import { FileService, PostsService } from 'api/services';
 import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
 import { getImageBlob } from 'utils/image';
+import { hashtagRegex } from 'utils/regex';
 
 interface Props {
   visible: boolean;
@@ -28,6 +29,11 @@ interface ImageData {
 }
 
 const TEXT_CONTENT_MAX_LENGTH = 140;
+
+function parseHashtags(content: string): string[] {
+  const hashtags = content.match(hashtagRegex) ?? [];
+  return [...new Set(hashtags)];
+}
 
 const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
   const me = useRecoilValue(atomStore.meAtom);
@@ -103,16 +109,20 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
             postId: initialValues.id,
             textContent,
             imageIds,
+            hashtags: parseHashtags(textContent),
           });
           setPosts((prevPosts) => {
+            if (!prevPosts) return;
             return prevPosts.map((post) => (post.id === edited.id ? edited : post));
           });
         } else {
           const added = await PostsService.createPost({
             textContent,
             imageIds,
+            hashtags: parseHashtags(textContent),
           });
           setPosts((prevPosts) => {
+            if (!prevPosts) return;
             return [added, ...prevPosts];
           });
         }

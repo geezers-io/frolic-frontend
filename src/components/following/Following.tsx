@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button, message } from 'antd';
 import { useRecoilValue } from 'recoil';
 
-import { UserService } from 'api/services';
+import { UsersService } from 'api/services';
 import UserIcon from 'components/userPanel/UserIcon';
 import atomStore from 'stores/atom';
 
@@ -23,9 +23,9 @@ const Following: React.FC<Props> = ({ username, realname }) => {
   const toggleFollowing = async () => {
     try {
       if (isFollowing) {
-        await UserService.unFollow({ username });
+        await UsersService.unFollow({ username });
       } else {
-        await UserService.follow({ username });
+        await UsersService.follow({ username });
       }
 
       setIsFollowing((prev) => !prev);

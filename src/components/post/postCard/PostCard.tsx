@@ -6,13 +6,14 @@ import { Button } from 'antd';
 import { useRecoilValue } from 'recoil';
 
 import { Post } from 'api/@types/posts';
-import Hashtag from 'components/hashtag/Hashtag';
 import PostCardFooter from 'components/post/postCard/PostCardFooter';
 import PostDropdown from 'components/post/postCard/PostDropdown';
 import UserIcon from 'components/userPanel/UserIcon';
 import { useFetchImageUrls } from 'hooks/useFetchImageUrls';
 import atomStore from 'stores/atom';
 import { days } from 'utils/days';
+import { hashtagsParser } from 'utils/hashtagParser';
+import { hashtagRegex } from 'utils/regex';
 
 import PostCardCarousel from './PostCardCarousel';
 
@@ -21,7 +22,7 @@ interface Props {
 }
 
 const PostCard: React.FC<Props> = ({ post }) => {
-  const { userInfo, textContent, hashtags, createdDate, updatedDate, files } = post;
+  const { userInfo, textContent, createdDate, updatedDate, files } = post;
 
   const router = useRouter();
   const me = useRecoilValue(atomStore.meAtom);
@@ -80,12 +81,14 @@ const PostCard: React.FC<Props> = ({ post }) => {
           <section className="leading-none">
             <span className="text-xs text-gray-400">{createdFrom}</span>
           </section>
-          <section className="mt-2">
-            <span>{textContent}</span>
-            {hashtags.map((tag) => (
-              <Hashtag key={'postCardHashtag-' + tag} tag={tag} />
-            ))}
-          </section>
+          <section
+            className="mt-2 whitespace-pre-line"
+            dangerouslySetInnerHTML={{
+              __html: textContent.replace(hashtagRegex, (tag) => {
+                return `<a href="/search?hashtags=${encodeURIComponent(hashtagsParser.serialize([tag]))}">${tag}</a>`;
+              }),
+            }}
+          ></section>
         </section>
 
         {imageUrls.length !== 0 && (

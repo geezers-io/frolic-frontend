@@ -5,7 +5,7 @@ import { message } from 'antd';
 import { useRecoilState } from 'recoil';
 
 import { Post } from 'api/@types/posts';
-import { PostsService, UserService } from 'api/services';
+import { PostsService, UsersService } from 'api/services';
 import EmptyFeed from 'components/empty/EmptyFeed';
 import EmptySpace from 'components/empty/EmptySpace';
 import PostCard from 'components/post/postCard/PostCard';
@@ -22,25 +22,28 @@ const MeProfilePage: NextPage = () => {
 
   const getMe = useCallback(async () => {
     try {
-      const me = await UserService.getMe();
+      const me = await UsersService.getMe();
       setMe(me);
     } catch (e) {
       messageApi.error(e.message);
     }
   }, [messageApi, setMe]);
 
-  const getMyPosts = useCallback(async () => {
-    try {
-      const myPosts = await PostsService.getUserPosts({ page: 0, size: 99999 });
-      setMyPosts(myPosts);
-    } catch (e) {
-      messageApi.error(e.message);
-    }
-  }, [messageApi]);
+  const getMyPosts = useCallback(
+    async (cursorId: number | null) => {
+      try {
+        const myPosts = await PostsService.getUserPosts({ cursorId });
+        setMyPosts(myPosts);
+      } catch (e) {
+        messageApi.error(e.message);
+      }
+    },
+    [messageApi]
+  );
 
   useEffect(() => {
     getMe();
-    getMyPosts();
+    getMyPosts(null);
   }, []);
 
   if (!me) {

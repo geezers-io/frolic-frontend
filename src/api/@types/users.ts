@@ -67,7 +67,7 @@ export interface CheckFollowingRequest {
   username: string;
 }
 
-export interface UserServiceClient {
+export interface UsersServiceClient {
   /**
    * 내 정보 반환
    */

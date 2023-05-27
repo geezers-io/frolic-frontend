@@ -4,7 +4,7 @@ import { CalendarOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useRecoilValue } from 'recoil';
 
-import { UserDetail } from 'api/@types/user';
+import { UserDetail } from 'api/@types/users';
 import FollowersModal from 'components/follower/FollowersModal';
 import FollowingsModal from 'components/following/FollowingsModal';
 import FollowOrUnFollowButton from 'components/userPanel/FollowOrUnFollowButton';

@@ -9,3 +9,6 @@ export const realnameRegex = /^(?=.[가-힣ㄱ-ㅎa-zA-Z])[가-힣ㄱ-ㅎa-zA-Z]
 
 // 전화번호 - 9-11자 숫자
 export const phoneNumberRegex = /^\d{9,11}$/;
+
+// 해쉬태그
+export const hashtagRegex = /#[^#\s]+/gm;

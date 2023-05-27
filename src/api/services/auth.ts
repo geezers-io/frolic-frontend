@@ -1,5 +1,5 @@
 import { AuthServiceClient } from 'api/@types/auth';
-import { api } from 'api/client';
+import { api, rawAxios } from 'api/client';
 
 export const AuthService: AuthServiceClient = {
   async createUser(body) {
@@ -12,6 +12,14 @@ export const AuthService: AuthServiceClient = {
 
   async logout() {
     return await api.get('/auth/logout');
+  },
+
+  async reIssueAccessToken(body) {
+    return await rawAxios.get('/auth/reissue', {
+      headers: {
+        authorization: `Bearer ${body.refreshToken}`,
+      },
+    });
   },
 
   async findEmailFirstStep(body) {
@@ -28,13 +36,5 @@ export const AuthService: AuthServiceClient = {
 
   async findPasswordSecondStep(body) {
     return await api.post('/auth/finder/password/check', body);
-  },
-
-  async reIssueAccessToken(body) {
-    return await api.get('/auth/reissue', {
-      headers: {
-        authorization: `Bearer ${body.refreshToken}`,
-      },
-    });
   },
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, message } from 'antd';
 
-import { UserService } from 'api/services';
+import { UsersService } from 'api/services';
 
 interface Props {
   username: string;
@@ -14,7 +14,7 @@ const FollowOrUnFollowButton: React.FC<Props> = ({ username }) => {
 
   const checkAndSetIsFollowing = async () => {
     try {
-      const isFollowing = await UserService.checkFollow({ username });
+      const isFollowing = await UsersService.checkFollow({ username });
       setIsFollowing(isFollowing);
     } catch (err) {
       messageApi.error(err.message);
@@ -24,9 +24,9 @@ const FollowOrUnFollowButton: React.FC<Props> = ({ username }) => {
   const onClickFollowUser = async () => {
     try {
       if (isFollowing) {
-        await UserService.unFollow({ username });
+        await UsersService.unFollow({ username });
       } else {
-        await UserService.follow({ username });
+        await UsersService.follow({ username });
       }
 
       setIsFollowing((prev) => !prev);

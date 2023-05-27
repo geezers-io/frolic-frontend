@@ -1,5 +1,7 @@
+import { AxiosResponse } from 'axios';
+
 import { Empty } from 'api/@types/@shared';
-import { UserDetail } from 'api/@types/user';
+import { UserDetail } from 'api/@types/users';
 
 export interface Token {
   accessToken: string;
@@ -54,8 +56,10 @@ export interface ReIssueAccessTokenRequest {
   refreshToken: string;
 }
 
-export interface ReIssueAccessTokenResponse {
-  accessToken: string;
+export interface ReIssueAccessTokenRawAxiosResponse {
+  data: {
+    accessToken: string;
+  };
 }
 
 export interface AuthServiceClient {
@@ -73,6 +77,11 @@ export interface AuthServiceClient {
    * 로그아웃
    */
   logout(): Promise<Empty>;
+
+  /**
+   * refreshToken 을 헤더에 포함시켜 accessToken 을 새로 발급 받습니다.
+   */
+  reIssueAccessToken(request: ReIssueAccessTokenRequest): Promise<AxiosResponse<ReIssueAccessTokenRawAxiosResponse>>;
 
   /**
    * 이메일 찾기 요청 step 1
@@ -93,9 +102,4 @@ export interface AuthServiceClient {
    * 비밀번호 찾기 요청 step 2
    */
   findPasswordSecondStep(request: FindPasswordSecondStepRequest): Promise<Empty>;
-
-  /**
-   * refreshToken 을 헤더에 포함시켜 accessToken 을 새로 발급 받습니다.
-   */
-  reIssueAccessToken(request: ReIssueAccessTokenRequest): Promise<ReIssueAccessTokenResponse>;
 }

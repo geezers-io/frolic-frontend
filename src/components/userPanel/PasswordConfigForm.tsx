@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 
 import { Button, Form, Input, message } from 'antd';
 
-import { UpdateMyPasswordRequest } from 'api/@types/user';
-import { UserService } from 'api/services';
+import { UpdateMyPasswordRequest } from 'api/@types/users';
+import { UsersService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import { requiredRule } from 'utils/formRules';
 import { passwordRegex } from 'utils/regex';
@@ -19,7 +19,7 @@ const PasswordConfigForm: React.FC = () => {
     async ({ prevPassword, newPassword }: FormValues) => {
       try {
         // setLoading(true);
-        await UserService.updateMyPassword({ prevPassword, newPassword });
+        await UsersService.updateMyPassword({ prevPassword, newPassword });
         messageApi.info('비밀번호가 변경되었습니다.');
       } catch (err) {
         messageApi.error(err.message);

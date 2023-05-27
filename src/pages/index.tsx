@@ -21,7 +21,7 @@ const MainPage: NextPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const getPosts = useCallback(
-    async (cursorId: number | null = null) => {
+    async (cursorId: number | null) => {
       try {
         const posts = await PostsService.getPosts({ cursorId });
         setPosts(posts);
@@ -51,7 +51,9 @@ const MainPage: NextPage = () => {
     <AppLayout>
       {contextHolder}
       <PostCreateButton />
-      {posts?.length === 0 ? <EmptyFeed /> : posts?.map((post) => <PostCard key={post.id} post={post} />)}
+      {posts === undefined && <PostCardsSkeleton />}
+      {posts?.length === 0 && <EmptyFeed />}
+      {!!posts?.length && posts.map((post) => <PostCard key={post.id} post={post} />)}
     </AppLayout>
   );
 };

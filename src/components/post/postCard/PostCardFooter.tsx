@@ -72,9 +72,7 @@ const PostCardFooter: React.FC<Props> = ({ post }) => {
           </Button>
         </section>
 
-        {isOpenCommentBox && (
-          <PostComments postId={post.id} postOwnerId={post.userInfo.id} setCommentsLength={setCommentsLength} />
-        )}
+        {isOpenCommentBox && <PostComments postId={post.id} setCommentsLength={setCommentsLength} />}
       </footer>
     </>
   );

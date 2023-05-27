@@ -4,8 +4,8 @@ import React, { useCallback } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useRecoilValue } from 'recoil';
 
-import { DeleteMeRequest } from 'api/@types/user';
-import { UserService } from 'api/services';
+import { DeleteMeRequest } from 'api/@types/users';
+import { UsersService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
 import { requiredRule } from 'utils/formRules';
@@ -24,7 +24,7 @@ const UserDeleteForm: React.FC = () => {
     async ({ password }: FormValues) => {
       try {
         // setLoading(true);
-        await UserService.deleteMe({ password });
+        await UsersService.deleteMe({ password });
         router.push('/sign-in');
       } catch (err) {
         messageApi.error(err);

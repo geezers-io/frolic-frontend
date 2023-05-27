@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import { v1 } from 'uuid';
 
-import { UserDetail } from 'api/@types/user';
+import { UserDetail } from 'api/@types/users';
 import { safetyLocalStorage } from 'utils/storage';
 
 const { persistAtom } = recoilPersist({ key: 'me', storage: safetyLocalStorage });

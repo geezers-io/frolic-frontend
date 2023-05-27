@@ -3,8 +3,8 @@ import React, { useCallback } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useRecoilState } from 'recoil';
 
-import { UpdateMeRequest, UserDetail } from 'api/@types/user';
-import { UserService } from 'api/services';
+import { UpdateMeRequest, UserDetail } from 'api/@types/users';
+import { UsersService } from 'api/services';
 import { useFormValidateTrigger } from 'hooks/useFormValidateTrigger';
 import atomStore from 'stores/atom';
 import { requiredRule } from 'utils/formRules';
@@ -21,7 +21,7 @@ const UserConfigForm: React.FC = () => {
     async (values: FormValues) => {
       try {
         // setLoading(true);
-        const updated = await UserService.updateMe(values);
+        const updated = await UsersService.updateMe(values);
         setMe((prev) => ({
           ...(prev as UserDetail),
           userInfo: updated,
