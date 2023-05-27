@@ -33,6 +33,8 @@ const PostDropdown: React.FC<Props> = ({ post }) => {
 
   const deletePost = useCallback(
     async (postId: number) => {
+      if (!posts) return;
+
       try {
         await PostsService.deletePost({ postId: post.id });
         const nextPosts = posts.filter(({ id }) => id !== postId);

@@ -112,6 +112,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
             hashtags: parseHashtags(textContent),
           });
           setPosts((prevPosts) => {
+            if (!prevPosts) return;
             return prevPosts.map((post) => (post.id === edited.id ? edited : post));
           });
         } else {
@@ -121,6 +122,7 @@ const PostForm: React.FC<Props> = ({ visible, onCancel, initialValues }) => {
             hashtags: parseHashtags(textContent),
           });
           setPosts((prevPosts) => {
+            if (!prevPosts) return;
             return [added, ...prevPosts];
           });
         }
