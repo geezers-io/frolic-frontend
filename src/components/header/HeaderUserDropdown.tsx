@@ -35,7 +35,6 @@ const HeaderUserDropdown: React.FC<Props> = ({ isLogined }) => {
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
   const resetMe = useResetRecoilState(atomStore.meAtom);
-  const resetMainPagePosts = useResetRecoilState(atomStore.mainPagePostsAtom);
 
   const moveToSignInPage = useCallback(() => {
     router.push('/auth/sign-in');
@@ -51,7 +50,6 @@ const HeaderUserDropdown: React.FC<Props> = ({ isLogined }) => {
         case MenuKey.SignOut: {
           await AuthService.logout();
           resetMe();
-          resetMainPagePosts();
           token.clear();
           moveToSignInPage();
           return;
