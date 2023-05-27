@@ -1,13 +1,11 @@
 import { NextPage } from 'next';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { message } from 'antd';
 
-import { Post } from 'api/@types/posts';
 import { PostsService } from 'api/services';
-import EmptyFeed from 'components/empty/EmptyFeed';
-import PostCard from 'components/post/postCard/PostCard';
-import PostCardsSkeleton from 'components/post/postCard/PostCardSkeleton';
+import Posts from 'components/post/Posts';
+import { usePostsInfinityScroll } from 'hooks/usePostsInfinityScroll';
 import AppLayout from 'layouts/AppLayout';
 import { hashtagsParser } from 'utils/hashtagParser';
 
@@ -17,50 +15,48 @@ interface Props {
 
 const SearchPage: NextPage<Props> = ({ hashtags }) => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [posts, setPosts] = useState<Post[]>();
 
-  const getPosts = useCallback(async () => {
-    try {
-      const posts = await PostsService.getPostsByHashtags({ hashtags, cursorId: null });
-      setPosts(posts);
-    } catch (e) {
-      messageApi.error(e.message);
+  const { posts, postsHandler, loaderRef, showLoader, error } = usePostsInfinityScroll(
+    PostsService.getPostsByHashtags,
+    {
+      additionalReqFields: {
+        hashtags,
+      },
     }
-  }, [hashtags, messageApi]);
+  );
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    if (error) {
+      messageApi.error(error.message);
+    }
+  }, [error]);
 
   return (
     <AppLayout>
       {contextHolder}
 
-      {posts === undefined && <PostCardsSkeleton />}
-      {posts?.length === 0 && <EmptyFeed />}
       {!!posts?.length && (
-        <>
-          <section className="flex flex-col items-center py-8">
-            <div className="flex gap-x-1">
-              {hashtags.map((tag) => (
-                <h3 key={'hashtagResult-' + tag} className="text-sky-500 text-base md:text-lg">
-                  {tag}
-                </h3>
-              ))}
-              <span className="text-base md:text-lg">로 검색하신 결과입니다.</span>
-            </div>
-            <span className="text-base">총 {posts.length}건</span>
-          </section>
-
-          <section>
-            <article className="flex flex-col gap-y-7">
-              {posts.map((post) => (
-                <PostCard key={'postCard-' + post.id} post={post} />
-              ))}
-            </article>
-          </section>
-        </>
+        <section className="flex flex-col items-center py-8">
+          <div className="flex gap-x-1">
+            {hashtags.map((tag) => (
+              <h3 key={'hashtagResult-' + tag} className="text-sky-500 text-base md:text-lg">
+                {tag}
+              </h3>
+            ))}
+            <span className="text-base md:text-lg">로 검색하신 결과입니다.</span>
+          </div>
+          <span className="text-base">총 {posts.length}건</span>
+        </section>
       )}
+
+      <Posts
+        posts={posts}
+        postsHandler={postsHandler}
+        loader={{
+          show: showLoader,
+          ref: loaderRef,
+        }}
+      />
     </AppLayout>
   );
 };
