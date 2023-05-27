@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps, message } from 'antd';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState } from 'recoil';
 
 import { AuthService } from 'api/services';
 import atomStore from 'stores/atom';
@@ -34,37 +34,36 @@ const menuItems: ItemType[] = [
 const HeaderUserDropdown: React.FC<Props> = ({ isLogined }) => {
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
-  const setMe = useSetRecoilState(atomStore.meAtom);
+  const resetMe = useResetRecoilState(atomStore.meAtom);
+  const resetMainPagePosts = useResetRecoilState(atomStore.mainPagePostsAtom);
 
   const moveToSignInPage = useCallback(() => {
     router.push('/auth/sign-in');
   }, [router]);
 
-  const handleDropDownClick = useCallback<Required<MenuProps>['onClick']>(
-    async ({ key }) => {
-      try {
-        switch (Number(key)) {
-          case MenuKey.Profile: {
-            router.push('/profile');
-            return;
-          }
-          case MenuKey.SignOut: {
-            await AuthService.logout();
-            setMe(() => undefined);
-            token.clear();
-            moveToSignInPage();
-            return;
-          }
-          default: {
-            return;
-          }
+  const handleDropDownClick: Required<MenuProps>['onClick'] = async ({ key }) => {
+    try {
+      switch (Number(key)) {
+        case MenuKey.Profile: {
+          router.push('/profile');
+          return;
         }
-      } catch (e) {
-        messageApi.error(e.message);
+        case MenuKey.SignOut: {
+          await AuthService.logout();
+          resetMe();
+          resetMainPagePosts();
+          token.clear();
+          moveToSignInPage();
+          return;
+        }
+        default: {
+          return;
+        }
       }
-    },
-    [messageApi, moveToSignInPage, router, setMe]
-  );
+    } catch (e) {
+      messageApi.error(e.message);
+    }
+  };
 
   if (!isLogined) {
     return (
