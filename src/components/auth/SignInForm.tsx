@@ -30,13 +30,13 @@ const SignInForm: React.FC = () => {
 
         const {
           tokenInfo: { accessToken, refreshToken },
-          userUnitedInfo,
+          userUnitedInfo: me,
         } = await AuthService.login({
           email,
           password,
         });
 
-        setMe(() => userUnitedInfo);
+        setMe(me);
 
         token.refreshToken.set(refreshToken, remember);
         token.accessToken.set(accessToken);

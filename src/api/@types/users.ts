@@ -1,3 +1,5 @@
+import { AxiosResponse } from 'axios/index';
+
 import { Empty } from 'api/@types/@shared';
 
 export interface User {
@@ -71,7 +73,7 @@ export interface UsersServiceClient {
   /**
    * 내 정보 반환
    */
-  getMe(): Promise<UserDetail>;
+  getMe(): Promise<AxiosResponse<{ data: UserDetail }>>;
 
   /**
    * 특정 사용자 정보 반환
